@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>방배동 도심복합사업 - 입주민 대시보드</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4adf24b63e8120766cbd0d35d5e64d9c&libraries=services"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+    <style>
+        :root{--bg:#08090a;--panel:#0f1011;--surface:#191a1b;--elevated:#28282c;--border:#23252a;--border-s:rgba(255,255,255,.05);--border-m:rgba(255,255,255,.08);--t1:#f7f8f8;--t2:#d0d6e0;--t3:#8a8f98;--t4:#62666d;--accent:#5e6ad2;--accent2:#828fff;--gold:#f59e0b;--green:#27a644;--red:#ef4444;--emerald:#10b981}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--t1);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+        .header{background:var(--panel);border-bottom:1px solid var(--border-s);padding:16px 24px;text-align:center}
+        .header h1{font-size:20px;font-weight:700;letter-spacing:-.5px}.header h1 span{color:var(--gold)}
+        .header p{color:var(--t3);font-size:13px;margin-top:4px}
+        .back-link{position:absolute;left:24px;top:20px;color:var(--t3);text-decoration:none;font-size:13px}.back-link:hover{color:var(--t1)}
+        .container{max-width:1200px;margin:0 auto;padding:20px}
+        .grid{display:grid;gap:16px}
+        .grid-2{grid-template-columns:1fr 1fr}
+        .grid-3{grid-template-columns:1fr 1fr 1fr}
+        .grid-4{grid-template-columns:1fr 1fr 1fr 1fr}
+        .card{background:var(--panel);border:1px solid var(--border-s);border-radius:12px;padding:20px}
+        .card h2{font-size:15px;font-weight:600;color:var(--t1);margin-bottom:14px;letter-spacing:-.3px}
+        .card h3{font-size:13px;font-weight:500;color:var(--t3);margin-bottom:8px}
+
+        /* 상단 KPI */
+        .kpi{text-align:center;padding:16px}
+        .kpi-value{font-size:28px;font-weight:700;letter-spacing:-1px}
+        .kpi-label{font-size:11px;color:var(--t4);margin-top:2px;text-transform:uppercase;letter-spacing:.5px}
+        .kpi-sub{font-size:12px;color:var(--t3);margin-top:4px}
+
+        /* 동의율 바 */
+        .consent-bar{position:relative;height:32px;background:var(--surface);border-radius:16px;overflow:hidden;margin:12px 0}
+        .consent-fill{height:100%;border-radius:16px;transition:width 1s ease}
+        .consent-marker{position:absolute;top:-6px;height:44px;width:2px;background:var(--t1)}
+        .consent-label{position:absolute;top:-22px;font-size:10px;color:var(--t3);transform:translateX(-50%);white-space:nowrap}
+
+        /* 타임라인 */
+        .tl{position:relative;padding-left:28px}
+        .tl::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:2px;background:var(--border)}
+        .tl-item{position:relative;padding-bottom:16px}
+        .tl-dot{position:absolute;left:-22px;top:4px;width:12px;height:12px;border-radius:50%;border:2px solid var(--accent);background:var(--bg)}
+        .tl-dot.done{background:var(--green);border-color:var(--green)}
+        .tl-dot.active{background:var(--gold);border-color:var(--gold);box-shadow:0 0 8px rgba(245,158,11,.4)}
+        .tl-date{font-size:11px;color:var(--t4);font-weight:500}
+        .tl-title{font-size:13px;font-weight:500;color:var(--t1);margin-top:2px}
+        .tl-desc{font-size:12px;color:var(--t3);margin-top:2px}
+        .tl-status{display:inline-block;font-size:10px;padding:2px 8px;border-radius:9999px;margin-left:6px;font-weight:500}
+        .st-done{background:rgba(39,166,68,.15);color:var(--green)}
+        .st-active{background:rgba(245,158,11,.15);color:var(--gold)}
+        .st-pending{background:rgba(138,143,152,.1);color:var(--t4)}
+
+        /* 비교 테이블 */
+        table{width:100%;border-collapse:collapse;font-size:13px}
+        th{text-align:left;padding:8px 10px;color:var(--t4);border-bottom:1px solid var(--border);font-weight:500;font-size:12px}
+        td{padding:6px 10px;color:var(--t2);border-bottom:1px solid var(--border)}
+        tr:hover{background:rgba(255,255,255,.02)}
+        tr.highlight td{color:var(--gold);font-weight:600;background:rgba(245,158,11,.05)}
+
+        /* 리스트 */
+        .list-item{display:flex;align-items:flex-start;gap:8px;padding:6px 0;font-size:13px;color:var(--t2)}
+        .list-icon{flex-shrink:0;margin-top:2px}
+        .strength .list-icon{color:var(--green)}
+        .risk .list-icon{color:var(--red)}
+
+        /* 지도 */
+        #bangbaeMap{height:300px;border-radius:8px}
+
+        /* 알림 배너 */
+        .alert{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);border-radius:12px;padding:16px 20px;margin-bottom:20px;text-align:center}
+        .alert-title{font-size:16px;font-weight:600;color:var(--gold)}
+        .alert-desc{font-size:13px;color:var(--t2);margin-top:4px}
+        .alert-countdown{font-size:24px;font-weight:700;color:var(--gold);margin-top:8px}
+
+        /* 연락처 */
+        .contact-item{padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+        .contact-item:last-child{border-bottom:none}
+        .contact-label{color:var(--t4);font-size:11px}
+        .contact-value{color:var(--t2);margin-top:2px}
+        .contact-value a{color:var(--accent2);text-decoration:none}
+        /* 호재 카드 */
+        .gn-card{background:var(--surface);border-radius:10px;padding:16px;border-left:3px solid var(--accent)}
+        .gn-cat{font-size:10px;font-weight:600;padding:2px 8px;border-radius:9999px;display:inline-block;margin-bottom:6px}
+        .gn-cat-교통{background:rgba(94,106,210,.15);color:var(--accent2)}
+        .gn-cat-도시계획{background:rgba(16,185,129,.15);color:var(--emerald)}
+        .gn-cat-재개발{background:rgba(245,158,11,.15);color:var(--gold)}
+        .gn-cat-정책{background:rgba(113,112,255,.15);color:#7170ff}
+        .gn-cat-개발{background:rgba(239,68,68,.15);color:var(--red)}
+        .gn-title{font-size:14px;font-weight:600;color:var(--t1);margin-bottom:4px}
+        .gn-status{font-size:11px;color:var(--gold);margin-bottom:6px}
+        .gn-desc{font-size:12px;color:var(--t3);line-height:1.5;margin-bottom:6px}
+        .gn-impact{font-size:12px;color:var(--emerald);padding:6px 10px;background:rgba(16,185,129,.06);border-radius:6px}
+        /* 페이지 탭 */
+        .pg-tab{padding:6px 14px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;background:transparent;color:var(--t3);border:1px solid var(--border);transition:all .15s;font-family:inherit}
+        .pg-tab:hover{color:var(--t2);border-color:var(--border-m)}
+        .pg-tab.active{color:var(--t1);background:var(--surface);border-color:var(--accent)}
+        .page-section{display:none}.page-section.active{display:block}
+        .pg-chip{padding:4px 10px;border-radius:9999px;font-size:11px;font-weight:500;cursor:pointer;background:transparent;color:var(--t3);border:1px solid var(--border);transition:all .15s;font-family:inherit}
+        .pg-chip:hover{color:var(--t1);border-color:var(--accent);background:rgba(94,106,210,.1)}
+        .news-card{padding:14px;background:var(--surface);border-radius:8px;margin-bottom:8px;border:1px solid var(--border)}
+        .news-card:hover{border-color:var(--border-m)}
+        .news-card a{color:var(--t1);text-decoration:none;font-size:13px;font-weight:500}.news-card a:hover{color:var(--accent2)}
+        .news-card .nd{font-size:12px;color:var(--t3);margin-top:4px;line-height:1.5}
+        .news-card .ndt{font-size:11px;color:var(--t4);margin-top:4px}
+
+        /* CTA */
+        .cta-btn{display:block;width:100%;padding:14px;background:var(--gold);color:#000;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;text-align:center;text-decoration:none;margin-top:12px;transition:background .15s}
+        .cta-btn:hover{background:#fbbf24}
+
+        /* 반응형 — 태블릿 */
+        @media(max-width:900px){
+            .grid-2{grid-template-columns:1fr}
+            .grid-3{grid-template-columns:1fr 1fr}
+            .grid-4{grid-template-columns:1fr 1fr}
+        }
+
+        /* 반응형 — 모바일 */
+        @media(max-width:600px){
+            .header{padding:12px 16px}
+            .header h1{font-size:16px}
+            .header h1 span{display:block;margin-top:2px}
+            .header p{font-size:11px}
+            .header>div:last-child{gap:3px;margin-top:8px;flex-wrap:wrap;justify-content:center}
+            .pg-tab{padding:5px 10px;font-size:11px}
+
+            .container{padding:10px}
+            .card{padding:14px;border-radius:10px}
+            .card h2{font-size:14px;margin-bottom:10px}
+            .card h3{font-size:12px}
+
+            .grid-2,.grid-3,.grid-4{grid-template-columns:1fr;gap:10px}
+
+            /* KPI */
+            .kpi{padding:12px}
+            .kpi-value{font-size:20px}
+            .kpi-label{font-size:10px}
+            .kpi-sub{font-size:11px}
+
+            /* 알림 배너 */
+            .alert{padding:12px 16px;margin-bottom:12px}
+            .alert-title{font-size:14px}
+            .alert-countdown{font-size:20px}
+            .alert-desc{font-size:11px}
+
+            /* 동의율 바 */
+            .consent-bar{height:24px;margin:10px 0}
+
+            /* CTA 버튼 */
+            .cta-btn{padding:12px;font-size:14px;border-radius:8px}
+
+            /* 지도 */
+            #bangbaeMap{height:250px}
+
+            /* 타임라인 */
+            .tl{padding-left:20px}
+            .tl-title{font-size:12px}
+            .tl-desc{font-size:11px}
+            .tl-date{font-size:10px}
+
+            /* 호재 카드 */
+            .gn-card{padding:12px}
+            .gn-title{font-size:13px}
+            .gn-desc{font-size:11px}
+            .gn-impact{font-size:11px;padding:5px 8px}
+
+            /* 연락처 */
+            .contact-item{padding:6px 0}
+            .contact-label{font-size:10px}
+            .contact-value{font-size:12px}
+
+            /* 시세 테이블 */
+            table{font-size:11px}
+            th,td{padding:5px 4px}
+
+            /* 리스트 */
+            .list-item{font-size:12px;padding:4px 0}
+
+            /* 뉴스/정책 */
+            .news-card{padding:10px}
+            .news-card a{font-size:12px}
+            .news-card .nd{font-size:11px}
+            .pg-chip{font-size:10px;padding:3px 8px}
+
+            /* 실거래 */
+            select,input{font-size:14px;padding:8px}
+
+            /* 인센티브 */
+            .grid-3{grid-template-columns:1fr 1fr}
+
+            /* 범례 */
+            .legend{font-size:10px;padding:6px 8px;bottom:8px;right:8px}
+        }
+
+        /* 초소형 모바일 */
+        @media(max-width:380px){
+            .pg-tab{padding:4px 7px;font-size:10px}
+            .grid-3{grid-template-columns:1fr}
+            .kpi-value{font-size:18px}
+            .alert-countdown{font-size:18px}
+            #bangbaeMap{height:200px}
+        }
+    </style>
+</head>
+<body>
+    <div class="header" style="position:relative">
+        <h1>🏗️ 방배동 <span>도심공공주택복합사업</span></h1>
+        <p>방배동 474~980번지 일대 | 입주민 전용 대시보드</p>
+        <div style="display:flex;justify-content:center;gap:4px;margin-top:12px">
+            <button class="pg-tab active" onclick="showPage('main',this)">사업 현황</button>
+            <button class="pg-tab" onclick="showPage('trade',this)">서초구 실거래</button>
+            <button class="pg-tab" onclick="showPage('policy',this)">정책</button>
+            <button class="pg-tab" onclick="showPage('news',this)">뉴스</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- ===== 메인(사업현황) 페이지 ===== -->
+        <div id="pageMain" class="page-section active">
+        <!-- 긴급 알림 -->
+        <div class="alert" id="alertBanner">
+            <div class="alert-title">⚡ 1차 참여의향서 마감까지</div>
+            <div class="alert-countdown" id="countdown"></div>
+            <div class="alert-desc">마감일: 2026년 4월 25일 | 동의율 50% 이상이 목표입니다</div>
+        </div>
+
+        <!-- KPI 카드 -->
+        <div class="grid grid-4" style="margin-bottom:16px">
+            <div class="card kpi">
+                <div class="kpi-value" style="color:var(--gold)" id="consentRate">-</div>
+                <div class="kpi-label">현재 동의율</div>
+                <div class="kpi-sub" id="consentDetail"></div>
+            </div>
+            <div class="card kpi">
+                <div class="kpi-value" style="color:var(--accent2)">12,000㎡</div>
+                <div class="kpi-label">구역 면적</div>
+                <div class="kpi-sub">공모 최소요건 10,000㎡ 초과</div>
+            </div>
+            <div class="card kpi">
+                <div class="kpi-value" style="color:var(--emerald)">3~5배</div>
+                <div class="kpi-label">예상 자산 가치 상승</div>
+                <div class="kpi-sub">현재 ~10억 → 20~30억</div>
+            </div>
+            <div class="card kpi">
+                <div class="kpi-value" style="color:var(--t1)">B+</div>
+                <div class="kpi-label">사업성 등급</div>
+                <div class="kpi-sub">추진 가치 있음</div>
+            </div>
+        </div>
+
+        <!-- 동의율 + 타임라인 -->
+        <div class="grid grid-2" style="margin-bottom:16px">
+            <div class="card" style="display:flex;flex-direction:column">
+                <h2>📊 동의율 현황</h2>
+                <div style="position:relative;margin:20px 0 40px">
+                    <div class="consent-bar">
+                        <div class="consent-fill" id="consentBar" style="width:0%;background:linear-gradient(90deg,var(--accent),var(--gold))"></div>
+                    </div>
+                    <div class="consent-marker" id="minMarker" style="left:30%">
+                        <div class="consent-label">최소 30%</div>
+                    </div>
+                    <div class="consent-marker" id="targetMarker" style="left:50%">
+                        <div class="consent-label" style="color:var(--gold)">목표 50%</div>
+                    </div>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--t3)">
+                    <span>현재 <strong id="consentNum" style="color:var(--t1)">-</strong>세대</span>
+                    <span>최소 <strong style="color:var(--accent)">55</strong>세대 (30%)</span>
+                    <span>목표 <strong style="color:var(--gold)">91</strong>세대 (50%)</span>
+                    <span>전체 <strong style="color:var(--t2)">182</strong>세대</span>
+                </div>
+
+                <!-- 다운로드 -->
+                <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
+                    <h3 style="font-size:13px;color:var(--t3);margin-bottom:10px">📎 서류 다운로드</h3>
+                    <a href="/bangbae/files/(%EC%96%91%EC%8B%9D)%EC%B0%B8%EC%97%AC%EC%9D%98%ED%96%A5%EC%84%9C%2C%20%EB%8C%80%ED%91%9C%EC%9E%90%EC%84%A0%EC%9E%84%EB%8F%99%EC%9D%98%EC%84%9C%2C%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4%EB%8F%99%EC%9D%98%EC%84%9C.pdf" download class="cta-btn">📄 참여의향서 양식 다운로드</a>
+                    <a href="/bangbae/files/%EB%B0%A9%EB%B0%B0%EB%8F%99%20980%EB%B2%88%EC%A7%80%20%EC%9D%BC%EB%8C%80%20%EB%8F%84%EC%8B%AC%EA%B3%B5%EA%B3%B5%EC%A3%BC%ED%83%9D%EB%B3%B5%ED%95%A9%EC%82%AC%EC%97%85%20%EC%B6%94%EC%A7%84%20%EC%84%A4%EB%AA%85%EC%9E%90%EB%A3%8C(%EC%86%8C%EC%9C%A0%EC%A3%BC%EC%A0%84%EC%9A%A9)v1.01.pdf" download style="display:block;text-align:center;margin-top:8px;padding:10px;background:var(--surface);border:1px solid var(--border-m);border-radius:8px;color:var(--t2);text-decoration:none;font-size:13px">📋 사업 설명서 다운로드 (소유주 전용)</a>
+                </div>
+
+                <!-- 설득 메시지 -->
+                <div style="margin-top:20px;padding:16px;background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.15);border-radius:10px;flex:1">
+                    <div style="font-size:15px;font-weight:600;color:var(--gold);margin-bottom:12px">💡 왜 반드시 참여해야 하나요?</div>
+                    <div style="font-size:13px;color:var(--t2);line-height:1.8">
+                        지금 이 지역에 쏟아지는 호재만으로도 가치 상승의 근거는 이미 충분합니다.
+                    </div>
+                    <div style="margin:12px 0;font-size:13px;color:var(--t2);line-height:2">
+                        <div>✅ 방배15구역 재개발 (포스코이앤씨, 20~30억 전망)</div>
+                        <div>✅ 사당복합환승센터 건립 (지상43층, 150m 랜드마크)</div>
+                        <div>✅ 사당·이수 지구단위계획 (상업·업무 기능 강화)</div>
+                        <div>✅ 방배동 5·6·7·13·14구역 동시 정비</div>
+                        <div>✅ 도심복합사업 시즌2 (용적률 1.4배, 분양가 상한제 미적용)</div>
+                    </div>
+                    <div style="font-size:13px;color:var(--t2);line-height:1.8">
+                        여기에 도심복합사업까지 선정되면, 자산 가치는 <span style="color:var(--emerald);font-weight:500">현재 ~10억 → 20~30억 (3~5배)</span>으로 더욱 크게 상승할 것입니다.<br><br>
+                        의향서가 많이 모일수록 동의율이 올라가고, 동의율이 높을수록 후보지 선정 확률이 올라갑니다. 선정되면 기대감만으로도 주변 시세를 따라 가치는 자연스럽게 움직입니다.<br><br>
+                        <span style="display:block;margin-top:8px;padding:12px;background:rgba(245,158,11,.1);border-radius:8px;color:var(--gold);font-weight:600;font-size:14px;text-align:center;line-height:1.6">
+                            귀찮더라도 의향서 한 장이<br>수억 원의 차이를 만듭니다.
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <h2>📅 사업 추진 타임라인</h2>
+                <div class="tl" id="timeline"></div>
+            </div>
+        </div>
+
+        <!-- 지도 + 구역 비교 -->
+        <div class="grid grid-2" style="margin-bottom:16px">
+            <div class="card">
+                <h2>🗺️ 구역 위치</h2>
+                <div id="bangbaeMap"></div>
+                <div style="margin-top:10px;font-size:12px;color:var(--t4)">
+                    방배동 474~980번지 | 사당역 2·4호선 500m | 방배15구역 인접
+                </div>
+            </div>
+            <div class="card">
+                <h2>📏 주변 구역 면적 비교</h2>
+                <canvas id="areaChart"></canvas>
+            </div>
+        </div>
+
+        <!-- 호재 정보 -->
+        <div class="card" style="margin-bottom:16px">
+            <h2>🔥 지역 호재 정보</h2>
+            <div class="grid grid-2" id="goodNews" style="margin-top:12px"></div>
+        </div>
+
+        <!-- 시세 비교 -->
+        <div class="card" style="margin-bottom:16px">
+            <h2>💰 시세 비교</h2>
+            <table>
+                <thead><tr><th>구분</th><th>현재 시세</th><th>전망/참고</th><th>비고</th></tr></thead>
+                <tbody>
+                    <tr class="highlight"><td>우리 구역</td><td>~10억</td><td>20~30억 (3~5배)</td><td>도심복합사업 완료 시</td></tr>
+                    <tr><td>방배15구역 (인접)</td><td>-</td><td>20~30억</td><td>포스코이앤씨 시공 예정</td></tr>
+                    <tr><td>방배 임광3차</td><td>15~17.5억</td><td>-</td><td>조합설립 준비 중, 소형(15.68평), 2020년 9.4억→2026년 15억</td></tr>
+                    <tr><td>길 건너 대로변 빌딩</td><td>60~182억</td><td>-</td><td>실거래 165억(2021), 225억(2021) 등</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 강점 + 리스크 -->
+        <div class="grid grid-2" style="margin-bottom:16px">
+            <div class="card">
+                <h2>✅ 사업 강점</h2>
+                <div id="strengths"></div>
+            </div>
+            <div class="card">
+                <h2>⚠️ 리스크 요인</h2>
+                <div id="risks"></div>
+            </div>
+        </div>
+
+        <!-- 연락처 -->
+        <div class="card" style="margin-bottom:16px">
+            <h2>📞 문의처</h2>
+            <div id="contacts"></div>
+        </div>
+
+        <!-- 인센티브 -->
+        <div class="card" style="margin-bottom:16px">
+            <h2>🎯 시즌2 인센티브 (기존 대비 대폭 개선)</h2>
+            <div class="grid grid-3" style="margin-top:12px" id="incentives"></div>
+        </div>
+
+
+        </div><!-- /pageMain -->
+
+        <!-- ===== 서초구 실거래 페이지 ===== -->
+        <div id="pageTrade" class="page-section">
+            <div class="card" style="margin-bottom:16px">
+                <h2>📊 서초구 아파트 실거래 분석</h2>
+                <div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">
+                    <select id="tradeYear" style="width:120px;background:var(--surface);border:1px solid var(--border-m);color:var(--t2);padding:6px 10px;border-radius:6px;font-size:13px;font-family:inherit">
+                        <option value="2026">2026년</option>
+                        <option value="2025">2025년</option>
+                        <option value="2024">2024년</option>
+                    </select>
+                    <select id="tradeMonth" style="width:100px;background:var(--surface);border:1px solid var(--border-m);color:var(--t2);padding:6px 10px;border-radius:6px;font-size:13px;font-family:inherit">
+                        <option value="01">1월</option><option value="02">2월</option><option value="03" selected>3월</option>
+                        <option value="04">4월</option><option value="05">5월</option><option value="06">6월</option>
+                        <option value="07">7월</option><option value="08">8월</option><option value="09">9월</option>
+                        <option value="10">10월</option><option value="11">11월</option><option value="12">12월</option>
+                    </select>
+                    <button onclick="loadTradeData()" style="padding:6px 14px;background:var(--accent);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px;font-family:inherit">조회</button>
+                </div>
+                <div id="tradeCount" style="font-size:12px;color:var(--t4);margin-bottom:10px"></div>
+                <div style="overflow-x:auto">
+                    <table id="tradeTable" style="width:100%;border-collapse:collapse;font-size:13px">
+                        <thead><tr style="border-bottom:1px solid var(--border);color:var(--t4);text-align:left">
+                            <th style="padding:8px 8px">아파트</th><th style="padding:8px 6px">법정동</th>
+                            <th style="padding:8px 6px">전용면적</th><th style="padding:8px 6px">층</th>
+                            <th style="padding:8px 6px">거래금액</th><th style="padding:8px 6px">계약일</th>
+                            <th style="padding:8px 6px">건축년도</th>
+                        </tr></thead>
+                        <tbody id="tradeBody"><tr><td colspan="7" style="text-align:center;padding:40px;color:var(--t4)">조회 버튼을 눌러주세요</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card">
+                <h2>📈 서초구 월별 거래량</h2>
+                <div style="height:300px"><canvas id="tradeVolChart"></canvas></div>
+            </div>
+        </div>
+
+        <!-- ===== 정책 타임라인 페이지 ===== -->
+        <div id="pagePolicy" class="page-section">
+            <div class="card" style="margin-bottom:16px">
+                <h2>📋 부동산 정책 타임라인</h2>
+                <div style="display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap" id="policyFilters2"></div>
+                <div class="timeline" id="policyTimeline2"><div class="loading"><div class="spinner"></div></div></div>
+            </div>
+        </div>
+
+        <!-- ===== 뉴스 페이지 ===== -->
+        <div id="pageNews" class="page-section">
+            <div class="card" style="margin-bottom:16px">
+                <h2>📰 부동산 뉴스</h2>
+                <div style="display:flex;gap:6px;margin-bottom:8px">
+                    <input type="text" id="newsQ" placeholder="검색어 입력" value="부동산 정책" style="flex:1;background:var(--surface);border:1px solid var(--border-m);color:var(--t2);padding:8px 10px;border-radius:6px;font-size:13px;font-family:inherit" />
+                    <button onclick="searchNews()" style="padding:6px 14px;background:var(--accent);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px;font-family:inherit">검색</button>
+                </div>
+                <div style="display:flex;gap:4px;margin-bottom:12px;flex-wrap:wrap">
+                    <button class="pg-chip" onclick="qNews('부동산 정책')">부동산 정책</button>
+                    <button class="pg-chip" onclick="qNews('재건축 재개발')">재건축·재개발</button>
+                    <button class="pg-chip" onclick="qNews('DSR 대출 규제')">DSR·대출</button>
+                    <button class="pg-chip" onclick="qNews('전세사기')">전세사기</button>
+                    <button class="pg-chip" onclick="qNews('도심공공주택복합사업')">도심복합</button>
+                    <button class="pg-chip" onclick="qNews('방배동 재개발')">방배동</button>
+                    <button class="pg-chip" onclick="qNews('사당역 복합환승센터')">사당역</button>
+                    <button class="pg-chip" onclick="qNews('분양가 상한제')">분양가 상한제</button>
+                    <button class="pg-chip" onclick="qNews('종부세 취득세')">종부세·취득세</button>
+                    <button class="pg-chip" onclick="qNews('청약 분양')">청약·분양</button>
+                </div>
+                <div id="newsResults"><div style="text-align:center;padding:40px;color:var(--t4)"><div class="spinner"></div></div></div>
+            </div>
+        </div>
+
+        <div style="text-align:center;color:var(--t4);font-size:11px;padding:20px 0">
+            방배동 도심공공주택복합사업 입주민 대시보드 | by 혜만
+        </div>
+    </div>
+
+    <script>
+        let kakaoMap=null;
+
+        // 페이지 전환
+        function showPage(page,btn){
+            document.querySelectorAll('.page-section').forEach(s=>s.classList.remove('active'));
+            document.querySelectorAll('.pg-tab').forEach(t=>t.classList.remove('active'));
+            document.getElementById('page'+page.charAt(0).toUpperCase()+page.slice(1)).classList.add('active');
+            btn.classList.add('active');
+            window.scrollTo({top:0,behavior:'smooth'});
+            if(page==='main'&&kakaoMap)setTimeout(()=>kakaoMap.relayout(),100);
+            if(page==='policy')loadPolicyTab();
+            if(page==='news'&&!newsLoaded)searchNews();
+        }
+
+        // ===== 서초구 실거래 =====
+        let tradeVolChart=null;
+        async function loadTradeData(){
+            const y=document.getElementById('tradeYear').value;
+            const m=document.getElementById('tradeMonth').value;
+            const tbody=document.getElementById('tradeBody');
+            tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--t4)">조회 중...</td></tr>';
+            try{
+                const r=await fetch(`/api/trades?property_type=%EC%95%84%ED%8C%8C%ED%8A%B8&trade_type=%EB%A7%A4%EB%A7%A4&sigungu=11650&year_month=${y}${m}`);
+                const data=await r.json();
+                if(!Array.isArray(data)||!data.length){
+                    tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--t4)">데이터 없음</td></tr>';
+                    document.getElementById('tradeCount').textContent='';
+                    return;
+                }
+                data.sort((a,b)=>parseInt(String(b.dealAmount||'0').replace(/,/g,''))-parseInt(String(a.dealAmount||'0').replace(/,/g,'')));
+                document.getElementById('tradeCount').textContent=`서초구 ${y}년 ${parseInt(m)}월 아파트 매매: ${data.length}건`;
+                tbody.innerHTML=data.slice(0,200).map(i=>{
+                    const amt=String(i.dealAmount||'').replace(/,/g,'').trim();
+                    const n=parseInt(amt);
+                    const price=n>=10000?`${Math.floor(n/10000)}억${n%10000>0?' '+(n%10000).toLocaleString()+'만':''}`:`${n?n.toLocaleString()+'만원':'-'}`;
+                    return`<tr><td style="padding:6px 8px;color:var(--t1);font-weight:500">${i.aptNm||'-'}</td><td style="padding:6px">${i.umdNm||'-'}</td><td style="padding:6px">${i.excluUseAr||'-'}㎡</td><td style="padding:6px">${i.floor||'-'}</td><td style="padding:6px;color:var(--gold);font-weight:600">${price}</td><td style="padding:6px">${y}.${m}.${String(i.dealDay||'').padStart(2,'0')}</td><td style="padding:6px">${i.buildYear||'-'}</td></tr>`;
+                }).join('');
+            }catch(e){
+                tbody.innerHTML=`<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--red)">조회 실패: ${e.message}</td></tr>`;
+            }
+        }
+
+        // ===== 정책 타임라인 =====
+        const tagCls={공급:'tag-supply',세금:'tag-tax',대출:'tag-loan',법제:'tag-law',금리:'tag-rate',규제:'tag-regulate',전세:'tag-jeonse',거시:'tag-macro'};
+        let policies2=[],activeCat2='전체';
+        async function loadPolicyTab(){
+            if(policies2.length){renderPolicy2();return;}
+            try{
+                const r=await fetch('/api/policy');
+                policies2=await r.json();
+                const cats=['전체',...new Set(policies2.map(p=>p.category))];
+                document.getElementById('policyFilters2').innerHTML=cats.map(c=>`<button class="pg-chip${c==='전체'?' active':''}" onclick="filterCat2('${c}',this)">${c}</button>`).join('');
+                renderPolicy2();
+            }catch(e){}
+        }
+        function filterCat2(cat,btn){activeCat2=cat;document.querySelectorAll('#policyFilters2 .pg-chip').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderPolicy2();}
+        function renderPolicy2(){
+            const el=document.getElementById('policyTimeline2');
+            const filtered=activeCat2==='전체'?policies2:policies2.filter(p=>p.category===activeCat2);
+            el.innerHTML=filtered.map(p=>`<div class="tl-item"><div class="tl-dot"></div><div class="tl-date">${p.date}</div><div class="tl-title">${p.title}</div><div class="tl-desc">${p.desc}</div><span class="tl-status ${tagCls[p.category]||'st-pending'}" style="display:inline-block;font-size:10px;padding:2px 8px;border-radius:9999px;margin-top:4px">${p.category}</span></div>`).join('');
+        }
+        function qSearch2(q){document.getElementById('policyQ').value=q;searchPolicyNews2();}
+        async function searchPolicyNews2(){
+            const q=document.getElementById('policyQ').value.trim();
+            const el=document.getElementById('policyNewsList2');
+            el.innerHTML='<div style="text-align:center;padding:20px;color:var(--t4)"><div class="spinner"></div></div>';
+            try{
+                const r=await fetch(`/api/policy/news?q=${encodeURIComponent(q)}&display=20`);
+                const d=await r.json();
+                if(!d.length){el.innerHTML='<div style="text-align:center;padding:20px;color:var(--t4)">검색 결과 없음</div>';return;}
+                el.innerHTML=d.map(i=>{
+                    const dt=new Date(i.date).toLocaleDateString('ko-KR');
+                    return`<div class="news-card"><a href="${i.link}" target="_blank">${i.title}</a><div class="nd">${i.desc}</div><div class="ndt">${dt}</div></div>`;
+                }).join('');
+            }catch(e){el.innerHTML='<div style="color:var(--red);padding:20px">검색 실패</div>';}
+        }
+
+        // ===== 뉴스 =====
+        let newsLoaded=false;
+        function qNews(q){document.getElementById('newsQ').value=q;searchNews();}
+        async function searchNews(){
+            const q=document.getElementById('newsQ').value.trim();
+            const el=document.getElementById('newsResults');
+            el.innerHTML='<div style="text-align:center;padding:20px"><div class="spinner"></div></div>';
+            try{
+                const r=await fetch(`/api/news?q=${encodeURIComponent(q)}&display=30`);
+                const d=await r.json();
+                if(!d.length){el.innerHTML='<div style="text-align:center;padding:20px;color:var(--t4)">검색 결과 없음</div>';return;}
+                el.innerHTML=d.map(i=>{
+                    const title=(i.title||'').replace(/<[^>]*>/g,'');
+                    const desc=(i.description||'').replace(/<[^>]*>/g,'');
+                    const dt=new Date(i.pubDate).toLocaleDateString('ko-KR');
+                    return`<div class="news-card"><a href="${i.originallink||i.link}" target="_blank">${title}</a><div class="nd">${desc}</div><div class="ndt">${dt}</div></div>`;
+                }).join('');
+                newsLoaded=true;
+            }catch(e){el.innerHTML='<div style="color:var(--red);padding:20px">검색 실패</div>';}
+        }
+
+        // 카운트다운
+        function updateCountdown(){
+            const deadline=new Date('2026-04-25T23:59:59');
+            const now=new Date();
+            const diff=deadline-now;
+            if(diff<=0){document.getElementById('countdown').textContent='마감';return;}
+            const d=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000);
+            document.getElementById('countdown').textContent=`${d}일 ${h}시간 ${m}분`;
+        }
+        updateCountdown();setInterval(updateCountdown,60000);
+
+        // 데이터 로드
+        async function loadData(){
+            const r=await fetch('/api/bangbae/data');
+            const d=await r.json();
+
+            // 동의율
+            const c=d.consent;
+            document.getElementById('consentRate').textContent=c.rate_current+'%';
+            document.getElementById('consentDetail').textContent=`${c.current}세대 / ${c.total_owners}세대`;
+            document.getElementById('consentNum').textContent=c.current;
+            setTimeout(()=>{document.getElementById('consentBar').style.width=c.rate_current+'%';},300);
+
+            // 타임라인
+            const tl=document.getElementById('timeline');
+            tl.innerHTML=d.timeline.map(t=>{
+                const dotClass=t.status==='완료'?'done':t.status==='진행중'?'active':'';
+                const stClass=t.status==='완료'?'st-done':t.status==='진행중'?'st-active':'st-pending';
+                return`<div class="tl-item"><div class="tl-dot ${dotClass}"></div><div class="tl-date">${t.date}<span class="tl-status ${stClass}">${t.status}</span></div><div class="tl-title">${t.title}</div><div class="tl-desc">${t.desc}</div></div>`;
+            }).join('');
+
+            // 호재 정보
+            if(d.good_news){
+                document.getElementById('goodNews').innerHTML=d.good_news.map(gn=>{
+                    const searchUrl=gn.search?`https://search.naver.com/search.naver?where=news&query=${encodeURIComponent(gn.search)}`:'';
+                    return`<div class="gn-card">
+                    <span class="gn-cat gn-cat-${gn.category}">${gn.category}</span>
+                    <div class="gn-title">${gn.title}</div>
+                    <div class="gn-status">📌 ${gn.status}</div>
+                    <div class="gn-desc">${gn.desc}</div>
+                    <div class="gn-impact">💡 ${gn.impact}</div>
+                    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+                    ${searchUrl?`<a href="${searchUrl}" target="_blank" style="font-size:11px;color:var(--accent2);text-decoration:none;padding:4px 10px;border:1px solid var(--border-m);border-radius:6px">📰 관련 기사</a>`:''}
+                    ${(gn.files||[]).map(f=>`<a href="/bangbae/files/${encodeURIComponent(f.path)}" download style="font-size:11px;color:var(--t2);text-decoration:none;padding:4px 10px;border:1px solid var(--border-m);border-radius:6px">📎 ${f.name}</a>`).join('')}
+                    </div>
+                </div>`;
+                }).join('');
+            }
+
+            // 강점
+            document.getElementById('strengths').innerHTML=d.strengths.map(s=>`<div class="list-item strength"><span class="list-icon">●</span>${s}</div>`).join('');
+
+            // 리스크
+            document.getElementById('risks').innerHTML=d.risks.map(s=>`<div class="list-item risk"><span class="list-icon">●</span>${s}</div>`).join('');
+
+            // 인센티브
+            const inc=d.incentives;
+            document.getElementById('incentives').innerHTML=[
+                {label:'용적률',value:inc.fsi_bonus,icon:'📐'},
+                {label:'분양가',value:inc.price_cap,icon:'🏷️'},
+                {label:'브랜드',value:inc.brand,icon:'🏢'},
+                {label:'이익 배분',value:inc.profit,icon:'💰'},
+                {label:'사업 속도',value:inc.speed,icon:'⚡'},
+            ].map(i=>`<div style="padding:12px;background:var(--surface);border-radius:8px"><div style="font-size:20px;margin-bottom:6px">${i.icon}</div><div style="font-size:12px;color:var(--t3)">${i.label}</div><div style="font-size:13px;color:var(--t1);margin-top:4px">${i.value}</div></div>`).join('');
+
+            // 연락처
+            document.getElementById('contacts').innerHTML=d.contacts.map(ct=>{
+                const val=ct.link?`<a href="${ct.link}" target="_blank">${ct.value}</a>`:ct.value;
+                return`<div class="contact-item"><div class="contact-label">${ct.icon} ${ct.label}</div><div class="contact-value">${val}</div></div>`;
+            }).join('');
+
+            // 면적 비교 차트
+            const comp=d.comparison;
+            new Chart(document.getElementById('areaChart').getContext('2d'),{
+                type:'bar',
+                data:{
+                    labels:comp.map(c=>c.name),
+                    datasets:[{
+                        label:'면적 (㎡)',
+                        data:comp.map(c=>c.area),
+                        backgroundColor:comp.map(c=>c.highlight?'rgba(245,158,11,.8)':'rgba(94,106,210,.4)'),
+                        borderRadius:4
+                    }]
+                },
+                options:{
+                    indexAxis:'y',
+                    responsive:true,
+                    plugins:{legend:{display:false}},
+                    scales:{
+                        x:{ticks:{color:'#62666d',font:{size:11},callback:v=>(v/10000).toFixed(1)+'만'},grid:{color:'#191a1b'}},
+                        y:{ticks:{color:'#d0d6e0',font:{size:11,weight:ctx=>comp[ctx.index]?.highlight?'bold':'normal'}},grid:{display:false}}
+                    }
+                }
+            });
+
+            // 지도
+            // 카카오맵 렌더링
+            const md=d.map_data;
+            const mapContainer=document.getElementById('bangbaeMap');
+            const mapOption={center:new kakao.maps.LatLng(md.center[0],md.center[1]),level:3};
+            kakaoMap=new kakao.maps.Map(mapContainer,mapOption);
+
+            // 지도 컨트롤
+            kakaoMap.addControl(new kakao.maps.ZoomControl(),kakao.maps.ControlPosition.RIGHT);
+            kakaoMap.addControl(new kakao.maps.MapTypeControl(),kakao.maps.ControlPosition.TOPRIGHT);
+
+            // 필지별 실제 경계 폴리곤
+            if(md.parcels){
+                Object.entries(md.parcels).forEach(([jibun, coords])=>{
+                    const path=coords.map(p=>new kakao.maps.LatLng(p[0],p[1]));
+                    const color=jibun.startsWith('474')?'#f59e0b':jibun.startsWith('475')?'#5e6ad2':'#10b981'; // 527,528,531,980=초록
+                    const polygon=new kakao.maps.Polygon({
+                        path,
+                        strokeWeight:2,
+                        strokeColor:color,
+                        strokeOpacity:0.9,
+                        fillColor:color,
+                        fillOpacity:0.25
+                    });
+                    polygon.setMap(kakaoMap);
+                    // 클릭 시 지번 표시
+                    kakao.maps.event.addListener(polygon,'click',()=>{
+                        const info=new kakao.maps.InfoWindow({
+                            content:`<div style="padding:6px 10px;font-size:12px;white-space:nowrap"><b>방배동 ${jibun}</b></div>`,
+                            removable:true
+                        });
+                        // 폴리곤 중심
+                        const cLat=coords.reduce((s,p)=>s+p[0],0)/coords.length;
+                        const cLng=coords.reduce((s,p)=>s+p[1],0)/coords.length;
+                        info.setPosition(new kakao.maps.LatLng(cLat,cLng));
+                        info.open(kakaoMap);
+                    });
+                });
+            }
+
+            // 구역 라벨
+            const ourInfo=new kakao.maps.InfoWindow({content:'<div style="padding:8px 12px;font-size:12px;font-weight:600;background:#f59e0b;color:#000;border-radius:4px;white-space:nowrap">⭐ 우리 구역 (12,000㎡)</div>',removable:false});
+            ourInfo.setPosition(new kakao.maps.LatLng(md.center[0],md.center[1]));
+            ourInfo.open(kakaoMap);
+
+            // 방배15구역 폴리곤
+            if(md.bangbae15_zone){
+                const bb15Path=md.bangbae15_zone.map(p=>new kakao.maps.LatLng(p[0],p[1]));
+                const bb15Polygon=new kakao.maps.Polygon({path:bb15Path,strokeWeight:1,strokeColor:'#5e6ad2',strokeOpacity:0.5,strokeStyle:'dash',fillColor:'#5e6ad2',fillOpacity:0.05});
+                bb15Polygon.setMap(kakaoMap);
+            }
+
+            // 랜드마크 마커
+            const colorMap={station:'#5e6ad2',good_news:'#f59e0b',zone:'#10b981',facility:'#8a8f98'};
+            md.landmarks.forEach(lm=>{
+                const color=colorMap[lm.type]||'#8a8f98';
+                const content=`<div style="background:${color};color:#fff;padding:3px 8px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,.3)">${lm.icon} ${lm.name}</div>`;
+                const overlay=new kakao.maps.CustomOverlay({position:new kakao.maps.LatLng(lm.lat,lm.lng),content,yAnchor:1.3});
+                overlay.setMap(kakaoMap);
+
+                if(lm.desc){
+                    const marker=new kakao.maps.Marker({position:new kakao.maps.LatLng(lm.lat,lm.lng)});
+                    marker.setMap(kakaoMap);
+                    const infowindow=new kakao.maps.InfoWindow({content:`<div style="padding:10px;max-width:260px;font-size:12px;line-height:1.5"><b>${lm.icon} ${lm.name}</b><br>${lm.desc}</div>`});
+                    kakao.maps.event.addListener(marker,'click',()=>infowindow.open(kakaoMap,marker));
+                }
+            });
+
+            // 사당복합환승센터 반경 500m
+            const sadangCenter=md.landmarks.find(l=>l.name.includes('사당복합'));
+            if(sadangCenter){
+                const circle=new kakao.maps.Circle({center:new kakao.maps.LatLng(sadangCenter.lat,sadangCenter.lng),radius:500,strokeWeight:1,strokeColor:'#f59e0b',strokeOpacity:0.4,strokeStyle:'dash',fillColor:'#f59e0b',fillOpacity:0.02});
+                circle.setMap(kakaoMap);
+            }
+        }
+
+        loadData();
+    </script>
+</body>
+</html>
