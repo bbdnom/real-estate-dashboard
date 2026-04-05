@@ -328,6 +328,55 @@
             <div class="grid grid-2" id="goodNews" style="margin-top:12px"></div>
         </div>
 
+        <!-- 사업성 분석 -->
+        <div class="card" style="margin-bottom:16px">
+            <h2>🔎 사업성 분석</h2>
+            <div style="display:inline-block;padding:4px 12px;border-radius:9999px;background:rgba(245,158,11,.15);color:var(--gold);font-size:13px;font-weight:600;margin-bottom:16px">종합 등급: B+ (추진 가치 있음)</div>
+
+            <div class="grid grid-2" style="margin-bottom:16px">
+                <div style="padding:16px;background:rgba(39,166,68,.06);border:1px solid rgba(39,166,68,.15);border-radius:10px">
+                    <div style="font-size:14px;font-weight:600;color:var(--green);margin-bottom:10px">입지 (A급)</div>
+                    <div style="font-size:13px;color:var(--t2);line-height:1.8">
+                        서초구 핵심 입지에 사당역 2·4호선 도보 500m. 방배15구역 바로 인접하여 완공 시 시너지 극대화. 사당복합환승센터, 사당·이수 지구단위계획 등 주변 호재가 집중된 지역.
+                    </div>
+                </div>
+                <div style="padding:16px;background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.15);border-radius:10px">
+                    <div style="font-size:14px;font-weight:600;color:var(--gold);margin-bottom:10px">구역 형태 (B급)</div>
+                    <div style="font-size:13px;color:var(--t2);line-height:1.8">
+                        약 12,000㎡로 공모 최소요건(10,000㎡)은 초과했으나, 가로로 긴 형태(약 400m × 30~50m)라 일반적인 판상형 단지 배치는 어려움. 타워형 고층 또는 주상복합 형태가 현실적.
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding:16px;background:var(--surface);border-radius:10px;margin-bottom:16px">
+                <div style="font-size:14px;font-weight:600;color:var(--t1);margin-bottom:10px">🏗️ 현실적인 개발 형태는?</div>
+                <div style="font-size:13px;color:var(--t2);line-height:1.8">
+                    구역이 가로로 길어 일반 아파트 단지(정방형)와는 다르지만, 도심복합사업은 이런 소규모·비정형 구역을 위해 만든 제도입니다.<br><br>
+                    <span style="color:var(--t1)">가능한 형태:</span><br>
+                    · 타워형 고층 (200~300세대) — 좁은 폭에서도 남향 확보 가능<br>
+                    · 주상복합 — 1층 생활SOC·상업시설 + 상층부 주거<br>
+                    · 용적률 1.4배 인센티브 활용 → 고밀 개발로 사업성 확보<br><br>
+                    <span style="color:var(--t1)">참고 사례:</span><br>
+                    · 연신내역 도심복합 — 불규칙 형태에서 사업승인 완료, 금호건설 시공자 선정<br>
+                    · 제물포역 도심복합 — 466% 용적률, 지상 49층 13개동, 3,497세대
+                </div>
+            </div>
+
+            <div style="padding:16px;background:rgba(94,106,210,.06);border:1px solid rgba(94,106,210,.15);border-radius:10px;margin-bottom:16px">
+                <div style="font-size:14px;font-weight:600;color:var(--accent2);margin-bottom:10px">📋 주의할 점</div>
+                <div style="font-size:13px;color:var(--t2);line-height:1.8">
+                    · 공공주택특별법 일몰: 2026.12.31 (여당 폐지 추진 중이나 불확실)<br>
+                    · 수용 방식 → 양도소득세 발생 (일반 재개발은 비과세)<br>
+                    · 이익공유형 분양: 거주의무 5년 / 지분적립형: 전매제한 10년<br>
+                    · 감정가 기준 보상 → 시세 대비 낮을 수 있음<br>
+                    · 방배15구역 편입은 시공사 선정 임박으로 사실상 어려움
+                </div>
+            </div>
+
+            <div style="font-size:14px;font-weight:600;color:var(--t1);margin-bottom:12px">🎯 시즌2 인센티브 (기존 대비 대폭 개선)</div>
+            <div class="grid grid-3" id="incentives"></div>
+        </div>
+
         <!-- 시세 비교 -->
         <div class="card" style="margin-bottom:16px">
             <h2>💰 시세 비교</h2>
@@ -342,30 +391,13 @@
             </table>
         </div>
 
-        <!-- 강점 + 리스크 -->
-        <div class="grid grid-2" style="margin-bottom:16px">
-            <div class="card">
-                <h2>✅ 사업 강점</h2>
-                <div id="strengths"></div>
-            </div>
-            <div class="card">
-                <h2>⚠️ 리스크 요인</h2>
-                <div id="risks"></div>
-            </div>
-        </div>
 
-        <!-- 연락처 -->
+
+        <!-- 문의처 (최하단) -->
         <div class="card" style="margin-bottom:16px">
             <h2>📞 문의처</h2>
             <div id="contacts"></div>
         </div>
-
-        <!-- 인센티브 -->
-        <div class="card" style="margin-bottom:16px">
-            <h2>🎯 시즌2 인센티브 (기존 대비 대폭 개선)</h2>
-            <div class="grid grid-3" style="margin-top:12px" id="incentives"></div>
-        </div>
-
 
         </div><!-- /pageMain -->
 
@@ -592,11 +624,6 @@
                 }).join('');
             }
 
-            // 강점
-            document.getElementById('strengths').innerHTML=d.strengths.map(s=>`<div class="list-item strength"><span class="list-icon">●</span>${s}</div>`).join('');
-
-            // 리스크
-            document.getElementById('risks').innerHTML=d.risks.map(s=>`<div class="list-item risk"><span class="list-icon">●</span>${s}</div>`).join('');
 
             // 인센티브
             const inc=d.incentives;
