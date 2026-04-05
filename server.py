@@ -69,6 +69,11 @@ def index():
     return send_from_directory('client/dist', 'bangbae.html')
 
 
+@app.route('/favicon.svg')
+def favicon():
+    return send_from_directory('client/dist', 'favicon.svg')
+
+
 @app.route('/dashboard')
 def dashboard_old():
     return send_from_directory('client/dist', 'index.html')
