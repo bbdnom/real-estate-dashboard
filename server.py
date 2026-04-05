@@ -484,6 +484,10 @@ def bangbae_page():
 
 @app.route('/bangbae/files/<path:filename>')
 def bangbae_files(filename):
+    # Vercel: client/dist/files에서 서빙 / 로컬: /home/hemannkim/bangbae에서 서빙
+    local_path = os.path.join(os.path.dirname(__file__), 'client', 'dist', 'files')
+    if os.path.exists(os.path.join(local_path, filename)):
+        return send_from_directory(local_path, filename)
     return send_from_directory('/home/hemannkim/bangbae', filename)
 
 
@@ -528,9 +532,9 @@ def bangbae_data():
                 "impact": "사당역 일대 랜드마크. 역세권 가치 대폭 상승. 우리 구역 도보 500m.",
                 "search": "사당복합환승센터",
                 "files": [
-                    {"name": "사당복합환승센터 추진현황 (25.4분기)", "path": "8._사당복합환승센터_추진(25.4분기).pdf"},
-                    {"name": "사당역 복합환승센터 조감도", "path": "사당역 복합 환승센터.jpg"},
-                    {"name": "사당역 복합환승센터 조감도 2", "path": "사당역 복합 환승센터2.jpg"},
+                    {"name": "사당복합환승센터 추진현황 (25.4분기)", "path": "sadang_hub.pdf"},
+                    {"name": "사당역 복합환승센터 조감도", "path": "sadang_hub_img1.jpg"},
+                    {"name": "사당역 복합환승센터 조감도 2", "path": "sadang_hub_img2.jpg"},
                 ]
             },
             {
@@ -542,10 +546,10 @@ def bangbae_data():
                 "impact": "지역 전체의 도시 기능 재편. 사당·이수 축 중심 개발 가속화.",
                 "search": "사당 이수 지구단위계획",
                 "files": [
-                    {"name": "사당·이수 지구단위계획 시행지침", "path": "사당·이수_지구단위계획_시행지침.pdf"},
-                    {"name": "사당·이수 지구단위계획 결정도면", "path": "02_사당·이수_지구단위계획_결정도면_1.pdf"},
-                    {"name": "사당·이수 결정도면 (이미지)", "path": "사당이수_결정도면.png"},
-                    {"name": "사당·이수 결정조서 (서고2015-335)", "path": "사당이수_결정조서(서고2015-335).pdf"},
+                    {"name": "사당·이수 지구단위계획 시행지침", "path": "sadang_isu_plan.pdf"},
+                    {"name": "사당·이수 지구단위계획 결정도면", "path": "sadang_isu_map.pdf"},
+                    {"name": "사당·이수 결정도면 (이미지)", "path": "sadang_isu_map_img.png"},
+                    {"name": "사당·이수 결정조서 (서고2015-335)", "path": "sadang_isu_decision.pdf"},
                 ]
             },
             {
@@ -567,11 +571,11 @@ def bangbae_data():
                 "impact": "우리 구역이 후보지로 선정되면 3~5년 내 신축 아파트 입주 가능.",
                 "search": "도심공공주택복합사업 시즌2",
                 "files": [
-                    {"name": "도심복합사업 시즌2 안내 책자", "path": "도심공공주택 복합사업 시즌2.pdf"},
-                    {"name": "신규 후보지 공모 공고문", "path": "☆＿（공고용）＿도심복합사업＿신규＿후보지＿공모공고（260310）＿v1.pdf"},
-                    {"name": "국토부 보도자료 (2026.3.11)", "path": "260311（조간）＿노후＿도심에도＿새＿아파트＿공급＿길＿열린다（도심주택정책과）.pdf"},
-                    {"name": "소유주 전용 추진 설명자료 v1.01", "path": "방배동 980번지 일대 도심공공주택복합사업 추진 설명자료(소유주전용)v1.01.pdf"},
-                    {"name": "참여의향서 양식", "path": "(양식)참여의향서, 대표자선임동의서,개인정보동의서.pdf"},
+                    {"name": "도심복합사업 시즌2 안내 책자", "path": "season2_guide.pdf"},
+                    {"name": "신규 후보지 공모 공고문", "path": "gongmo_notice.pdf"},
+                    {"name": "국토부 보도자료 (2026.3.11)", "path": "molit_press.pdf"},
+                    {"name": "소유주 전용 추진 설명자료 v1.01", "path": "project_guide.pdf"},
+                    {"name": "참여의향서 양식", "path": "consent_form.pdf"},
                 ]
             },
             {
