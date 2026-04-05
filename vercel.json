@@ -1,0 +1,22 @@
+{
+  "builds": [
+    {
+      "src": "server.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/bangbae/files/(.*)",
+      "dest": "server.py"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "server.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "server.py"
+    }
+  ]
+}
