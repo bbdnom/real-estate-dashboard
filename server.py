@@ -74,6 +74,11 @@ def favicon():
     return send_from_directory('client/dist', 'favicon.svg')
 
 
+@app.route('/blog/<path:slug>')
+def blog_page(slug):
+    return send_from_directory('client/dist', f'blog-{slug}.html')
+
+
 @app.route('/dashboard')
 def dashboard_old():
     return send_from_directory('client/dist', 'index.html')
