@@ -220,10 +220,11 @@
         <!-- ===== 메인(사업현황) 페이지 ===== -->
         <div id="pageMain" class="page-section active">
         <!-- 긴급 알림 -->
-        <div class="alert" id="alertBanner">
-            <div class="alert-title">⚡ 1차 참여의향서 마감까지</div>
-            <div class="alert-countdown" id="countdown"></div>
-            <div class="alert-desc">마감일: 2026년 4월 25일 | 동의율 50% 이상이 목표입니다</div>
+        <div class="alert" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25)">
+            <div class="alert-title" style="color:var(--red)">🚨 참여의향서 접수 현황이 매우 저조합니다</div>
+            <div class="alert-countdown" id="countdown" style="color:var(--red)"></div>
+            <div class="alert-desc" style="margin-top:4px">마감일: 2026년 4월 25일 | 현재 <strong style="color:var(--red)">11세대</strong> 접수 (목표 91세대의 12%)</div>
+            <div style="font-size:14px;color:var(--t1);margin-top:10px;font-weight:500">우리가 힘을 모으고 목소리를 내기 위해선, 주민 여러분의 결집과 의향서가 더욱 절실한 시점입니다</div>
         </div>
 
         <!-- KPI 카드 -->
@@ -239,9 +240,9 @@
                 <div class="kpi-sub">공모 최소요건 10,000㎡ 초과</div>
             </div>
             <div class="card kpi">
-                <div class="kpi-value" style="color:var(--emerald)">3~5배</div>
-                <div class="kpi-label">예상 자산 가치 상승</div>
-                <div class="kpi-sub">현재 ~10억 → 20~30억</div>
+                <div class="kpi-value" style="color:var(--emerald)">대폭 상승</div>
+                <div class="kpi-label">예상 자산 가치</div>
+                <div class="kpi-sub">도심복합 선정 시 수 배 이상</div>
             </div>
             <div class="card kpi">
                 <div class="kpi-value" style="color:var(--t1)">B+</div>
@@ -272,11 +273,25 @@
                     <span>전체 <strong style="color:var(--t2)">182</strong>세대</span>
                 </div>
 
+                <div style="margin-top:12px;padding:12px 16px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.15);border-radius:8px">
+                    <div style="font-size:13px;color:var(--red);font-weight:600">⚠️ 현재 접수율이 매우 저조합니다. 최소 요건(30%)까지 44세대가 더 필요합니다.</div>
+                    <div style="font-size:12px;color:var(--t3);margin-top:4px">참여의향서를 아직 제출하지 않으신 분은 서둘러 주시기 바랍니다.</div>
+                </div>
+
                 <!-- 다운로드 -->
                 <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
                     <h3 style="font-size:13px;color:var(--t3);margin-bottom:10px">📎 서류 다운로드</h3>
                     <a href="/bangbae/files/consent_form.pdf" download class="cta-btn">📄 참여의향서 양식 다운로드</a>
                     <a href="/bangbae/files/project_guide.pdf" download style="display:block;text-align:center;margin-top:8px;padding:10px;background:var(--surface);border:1px solid var(--border-m);border-radius:8px;color:var(--t2);text-decoration:none;font-size:13px">📋 사업 설명서 다운로드 (소유주 전용)</a>
+
+                    <div style="margin-top:14px;padding:14px 16px;background:var(--surface);border-radius:8px">
+                        <div style="font-size:13px;font-weight:600;color:var(--t1);margin-bottom:8px">📍 의향서 제출처</div>
+                        <div style="font-size:12px;color:var(--t2);line-height:1.9">
+                            <div>• <strong>호정옷수선</strong> — 서초구 효령로5길 26-5 <span style="color:var(--t4)">(방배동 470-1)</span></div>
+                            <div>• <strong>찬누리공인중개사</strong> — 서초구 청두곶9길 1 <span style="color:var(--t4)">(방배2동 463-12)</span></div>
+                        </div>
+                        <div style="font-size:12px;color:var(--t3);margin-top:8px">※ 자세한 내용은 <a href="https://cafe.naver.com/" target="_blank" style="color:var(--accent2);text-decoration:underline">네이버 카페</a>를 참고해 주시기 바랍니다.</div>
+                    </div>
                 </div>
 
                 <!-- 설득 메시지 -->
@@ -286,14 +301,14 @@
                         지금 이 지역에 쏟아지는 호재만으로도 가치 상승의 근거는 이미 충분합니다.
                     </div>
                     <div style="margin:12px 0;font-size:13px;color:var(--t2);line-height:2">
-                        <div>✅ 방배15구역 재개발 (포스코이앤씨, 20~30억 전망)</div>
+                        <div>✅ 방배15구역 재개발 (포스코이앤씨, 30억 이상 전망)</div>
                         <div>✅ 사당복합환승센터 건립 (지상43층, 150m 랜드마크)</div>
                         <div>✅ 사당·이수 지구단위계획 (상업·업무 기능 강화)</div>
                         <div>✅ 방배동 5·6·7·13·14구역 동시 정비</div>
                         <div>✅ 도심복합사업 시즌2 (용적률 1.4배, 분양가 상한제 미적용)</div>
                     </div>
                     <div style="font-size:13px;color:var(--t2);line-height:1.8">
-                        여기에 도심복합사업까지 선정되면, 자산 가치는 <span style="color:var(--emerald);font-weight:500">현재 ~10억 → 20~30억 (3~5배)</span>으로 더욱 크게 상승할 것입니다.<br><br>
+                        여기에 도심복합사업까지 선정되면, 자산 가치는 <span style="color:var(--emerald);font-weight:500">지금보다 몇 배 이상 더욱 크게 상승</span>할 것입니다.<br><br>
                         의향서가 많이 모일수록 동의율이 올라가고, 동의율이 높을수록 후보지 선정 확률이 올라갑니다. 선정되면 기대감만으로도 주변 시세를 따라 가치는 자연스럽게 움직입니다.<br><br>
                         <span style="display:block;margin-top:8px;padding:12px;background:rgba(245,158,11,.1);border-radius:8px;color:var(--gold);font-weight:600;font-size:14px;text-align:center;line-height:1.6">
                             귀찮더라도 의향서 한 장이<br>수억 원의 차이를 만듭니다.
@@ -436,8 +451,8 @@
             <table>
                 <thead><tr><th>구분</th><th>현재 시세</th><th>전망/참고</th><th>비고</th></tr></thead>
                 <tbody>
-                    <tr class="highlight"><td>우리 구역</td><td>~10억</td><td>20~30억 (3~5배)</td><td>도심복합사업 완료 시</td></tr>
-                    <tr><td>방배15구역 (인접)</td><td>-</td><td>20~30억</td><td>포스코이앤씨 시공 예정</td></tr>
+                    <tr class="highlight"><td>우리 구역</td><td>~10억</td><td>30억 이상 (3~5배)</td><td>도심복합사업 완료 시</td></tr>
+                    <tr><td>방배15구역 (인접)</td><td>-</td><td>30억 이상</td><td>포스코이앤씨 시공 예정</td></tr>
                     <tr><td>방배 임광3차</td><td>15~17.5억</td><td>-</td><td>조합설립 준비 중, 소형(15.68평), 2020년 9.4억→2026년 15억</td></tr>
                     <tr><td>길 건너 대로변 빌딩</td><td>60~182억</td><td>-</td><td>실거래 165억(2021), 225억(2021) 등</td></tr>
                 </tbody>

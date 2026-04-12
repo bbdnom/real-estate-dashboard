@@ -606,11 +606,11 @@ def bangbae_data():
             {"date": "2029~2030", "title": "착공 → 입주", "status": "예정", "desc": "3~5년 내 완공 목표"},
         ],
         "consent": {
-            "current": 70,
+            "current": 11,
             "min_required": 55,
             "target": 91,
             "total_owners": 182,
-            "rate_current": 38.5,
+            "rate_current": 6.0,
             "rate_min": 30,
             "rate_target": 50,
             "deadline": "2026-04-25",
@@ -628,8 +628,8 @@ def bangbae_data():
             {"name": "방배대우기은주택", "area": 6827, "type": "재건축"},
         ],
         "price_compare": {
-            "our_area": {"current": "~10억", "expected": "20~30억", "upside": "3~5배"},
-            "bangbae15": {"status": "포스코이앤씨 시공 예정", "expected": "20~30억"},
+            "our_area": {"current": "~10억", "expected": "30억 이상", "upside": "3~5배"},
+            "bangbae15": {"status": "포스코이앤씨 시공 예정", "expected": "30억 이상"},
             "imgwang3": {"price_2020": "9.4억", "price_2026": "15억", "asking": "17.5억", "note": "조합설립 준비 중, 방1개 화1개 소형(15.68평)"},
             "nearby_buildings": [
                 {"name": "대로변 빌딩 A", "price": "182억", "note": "실거래 165억 (2021.11)"},
