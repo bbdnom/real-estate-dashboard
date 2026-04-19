@@ -223,7 +223,7 @@
         <div class="alert" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25)">
             <div class="alert-title" style="color:var(--red)">🚨 참여의향서 접수 현황이 매우 저조합니다</div>
             <div class="alert-countdown" id="countdown" style="color:var(--red)"></div>
-            <div class="alert-desc" style="margin-top:4px">마감일: 2026년 4월 25일 | 현재 <strong style="color:var(--red)">32세대</strong> 접수 (동의율 15.3%, 목표 105세대의 30%)</div>
+            <div class="alert-desc" style="margin-top:4px">마감일: 2026년 4월 30일 | 현재 <strong style="color:var(--red)">32세대</strong> 접수 (동의율 15.3%, 목표 105세대의 30%)</div>
             <div style="margin-top:14px;text-align:left;max-width:640px;margin-left:auto;margin-right:auto">
                 <div style="font-size:13px;color:var(--t1);line-height:1.9">
                     <div style="margin-bottom:6px">• 성공적인 사업 추진과 후보지 선정을 위해서는 소유주 여러분의 <strong style="color:var(--red)">결집된 동의와 참여의향서 제출이 필수</strong>적입니다.</div>
@@ -294,6 +294,7 @@
                     <h3 style="font-size:13px;color:var(--t3);margin-bottom:10px">📎 서류 다운로드</h3>
                     <a href="/bangbae/files/consent_form.pdf" download class="cta-btn">📄 참여의향서 양식 다운로드</a>
                     <a href="/bangbae/files/project_guide.pdf" download style="display:block;text-align:center;margin-top:8px;padding:10px;background:var(--surface);border:1px solid var(--border-m);border-radius:8px;color:var(--t2);text-decoration:none;font-size:13px">📋 사업 설명서 다운로드 (소유주 전용)</a>
+                    <a href="/bangbae/files/bangbae_design_system.pdf" download style="display:block;text-align:center;margin-top:8px;padding:10px;background:var(--surface);border:1px solid var(--border-m);border-radius:8px;color:var(--t2);text-decoration:none;font-size:13px">📖 방배2동 안내 자료 다운로드</a>
 
                     <div style="margin-top:14px;padding:14px 16px;background:var(--surface);border-radius:8px">
                         <div style="font-size:13px;font-weight:600;color:var(--t1);margin-bottom:8px">📍 의향서 제출처</div>
@@ -343,8 +344,9 @@
                 </div>
             </div>
             <div class="card">
-                <h2>📏 주변 구역 면적 비교</h2>
-                <canvas id="areaChart"></canvas>
+                <h2>🏙️ 재개발 후 예상 조감도</h2>
+                <img src="/bangbae/files/bangbae_rendering.png" alt="방배2동 재개발 조감도" style="width:100%;border-radius:8px;margin-top:8px"/>
+                <div style="font-size:11px;color:var(--t4);text-align:center;margin-top:8px">※ AI 생성 예시. 실제 설계 시 달라질 수 있음.</div>
             </div>
         </div>
 
@@ -374,32 +376,7 @@
                 </div>
             </div>
 
-            <div style="padding:16px;background:var(--surface);border-radius:10px;margin-bottom:16px">
-                <div style="font-size:14px;font-weight:600;color:var(--t1);margin-bottom:10px">🏗️ 현실적인 개발 형태는?</div>
-                <div style="font-size:13px;color:var(--t2);line-height:1.8">
-                    구역이 가로로 길어 일반 아파트 단지(정방형)와는 다르지만, 도심복합사업은 이런 소규모·비정형 구역을 위해 만든 제도입니다.<br><br>
-                    <span style="color:var(--t1)">가능한 형태:</span><br>
-                    · 타워형 고층 (200~300세대) — 좁은 폭에서도 남향 확보 가능<br>
-                    · 주상복합 — 1층 생활SOC·상업시설 + 상층부 주거<br>
-                    · 용적률 1.4배 인센티브 활용 → 고밀 개발로 사업성 확보<br><br>
-                    <span style="color:var(--t1)">참고 사례:</span><br>
-                    · 연신내역 도심복합 — 불규칙 형태에서 사업승인 완료, 금호건설 시공자 선정<br>
-                    · 제물포역 도심복합 — 466% 용적률, 지상 49층 13개동, 3,497세대
-                </div>
-            </div>
-
-            <div style="padding:16px;background:rgba(94,106,210,.06);border:1px solid rgba(94,106,210,.15);border-radius:10px;margin-bottom:16px">
-                <div style="font-size:14px;font-weight:600;color:var(--accent2);margin-bottom:10px">📋 주의할 점</div>
-                <div style="font-size:13px;color:var(--t2);line-height:1.8">
-                    · 공공주택특별법 일몰: 2026.12.31 (여당 폐지 추진 중이나 불확실)<br>
-                    · 수용 방식이지만 협의보상 체결 시 양도세 비과세, 현물보상 주택 취득세 중과 제외<br>
-                    · 이익공유형 분양: 거주의무 5년 / 지분적립형: 전매제한 10년<br>
-                    · 감정가 기준 보상 → 시세 대비 낮을 수 있음<br>
-                    · 방배15구역 편입은 시공사 선정 임박으로 사실상 어려움
-                </div>
-            </div>
-
-            <div style="font-size:14px;font-weight:600;color:var(--t1);margin-bottom:12px">🎯 시즌2 인센티브 (기존 대비 대폭 개선)</div>
+            <div style="font-size:14px;font-weight:600;color:var(--t1);margin-bottom:12px;margin-top:16px">🎯 시즌2 인센티브 (기존 대비 대폭 개선)</div>
             <div class="grid grid-3" id="incentives"></div>
         </div>
 
@@ -476,6 +453,10 @@
         <div class="card" style="margin-bottom:16px">
             <h2>📞 문의처</h2>
             <div id="contacts"></div>
+            <div style="margin-top:16px;padding:14px 16px;background:linear-gradient(135deg,rgba(94,106,210,0.08),rgba(130,143,255,0.08));border:1px solid rgba(94,106,210,0.2);border-radius:10px">
+                <div style="font-size:13px;font-weight:600;color:var(--accent2);margin-bottom:4px">👤 주민대표</div>
+                <div style="font-size:15px;color:var(--t1);font-weight:600">김혜만 <a href="tel:01062752724" style="color:var(--accent2);text-decoration:none">010-6275-2724</a></div>
+            </div>
         </div>
 
         </div><!-- /pageMain -->
@@ -656,7 +637,7 @@
 
         // 카운트다운
         function updateCountdown(){
-            const deadline=new Date('2026-04-25T23:59:59');
+            const deadline=new Date('2026-04-30T23:59:59');
             const now=new Date();
             const diff=deadline-now;
             if(diff<=0){document.getElementById('countdown').textContent='마감';return;}
