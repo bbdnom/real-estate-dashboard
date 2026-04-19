@@ -346,7 +346,6 @@
             <div class="card">
                 <h2>🏙️ 재개발 후 예상 조감도</h2>
                 <img src="/bangbae/files/bangbae_rendering.png" alt="방배2동 재개발 조감도" style="width:100%;border-radius:8px;margin-top:8px"/>
-                <div style="font-size:11px;color:var(--t4);text-align:center;margin-top:8px">※ AI 생성 예시. 실제 설계 시 달라질 수 있음.</div>
             </div>
         </div>
 
@@ -700,30 +699,6 @@
                 const val=ct.link?`<a href="${ct.link}" target="_blank">${ct.value}</a>`:ct.value;
                 return`<div class="contact-item"><div class="contact-label">${ct.icon} ${ct.label}</div><div class="contact-value">${val}</div></div>`;
             }).join('');
-
-            // 면적 비교 차트
-            const comp=d.comparison;
-            new Chart(document.getElementById('areaChart').getContext('2d'),{
-                type:'bar',
-                data:{
-                    labels:comp.map(c=>c.name),
-                    datasets:[{
-                        label:'면적 (㎡)',
-                        data:comp.map(c=>c.area),
-                        backgroundColor:comp.map(c=>c.highlight?'rgba(245,158,11,.8)':'rgba(94,106,210,.4)'),
-                        borderRadius:4
-                    }]
-                },
-                options:{
-                    indexAxis:'y',
-                    responsive:true,
-                    plugins:{legend:{display:false}},
-                    scales:{
-                        x:{ticks:{color:'#62666d',font:{size:11},callback:v=>(v/10000).toFixed(1)+'만'},grid:{color:'#191a1b'}},
-                        y:{ticks:{color:'#d0d6e0',font:{size:11,weight:ctx=>comp[ctx.index]?.highlight?'bold':'normal'}},grid:{display:false}}
-                    }
-                }
-            });
 
             // 지도
             // 카카오맵 렌더링
