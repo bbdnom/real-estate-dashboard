@@ -614,11 +614,11 @@ def bangbae_data():
             {"date": "2033~2034", "title": "준공 → 입주", "status": "예정", "desc": "사용승인 후 입주 개시 (전체 약 7~8년 예상)"},
         ],
         "consent": {
-            "current": 32,
+            "current": 36,
             "min_required": 63,
             "target": 105,
             "total_owners": 209,
-            "rate_current": 15.3,
+            "rate_current": 17.2,
             "rate_min": 30,
             "rate_target": 50,
             "deadline": "2026-04-30",
