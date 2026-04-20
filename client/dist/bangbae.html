@@ -22,6 +22,9 @@
         .grid-2{grid-template-columns:1fr 1fr}
         .grid-3{grid-template-columns:1fr 1fr 1fr}
         .grid-4{grid-template-columns:1fr 1fr 1fr 1fr}
+        .grid-5{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+        .hojae-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+        .rendering-wrap,.rendering-img{height:300px}
         .card{background:var(--panel);border:1px solid var(--border-s);border-radius:12px;padding:20px}
         .card h2{font-size:15px;font-weight:600;color:var(--t1);margin-bottom:14px;letter-spacing:-.3px}
         .card h3{font-size:13px;font-weight:500;color:var(--t3);margin-bottom:8px}
@@ -115,6 +118,8 @@
             .grid-2{grid-template-columns:1fr}
             .grid-3{grid-template-columns:1fr 1fr}
             .grid-4{grid-template-columns:1fr 1fr}
+            .grid-5{grid-template-columns:repeat(3,1fr);gap:10px}
+            .hojae-grid{grid-template-columns:repeat(3,1fr);gap:8px}
         }
 
         /* 반응형 — 모바일 */
@@ -132,6 +137,8 @@
             .card h3{font-size:12px}
 
             .grid-2,.grid-3,.grid-4{grid-template-columns:1fr;gap:10px}
+            .grid-5{grid-template-columns:repeat(2,1fr);gap:8px}
+            .hojae-grid{grid-template-columns:1fr;gap:8px}
 
             /* KPI */
             .kpi{padding:12px}
@@ -153,6 +160,7 @@
 
             /* 지도 */
             #bangbaeMap{height:250px}
+            .rendering-wrap,.rendering-img{height:250px}
 
             /* 타임라인 */
             .tl{padding-left:20px}
@@ -201,6 +209,8 @@
             .kpi-value{font-size:18px}
             .alert-countdown{font-size:18px}
             #bangbaeMap{height:200px}
+            .rendering-wrap,.rendering-img{height:200px}
+            .grid-5{grid-template-columns:1fr;gap:6px}
         }
     </style>
 </head>
@@ -234,7 +244,7 @@
         </div>
 
         <!-- KPI 카드 -->
-        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:16px">
+        <div class="grid-5" style="margin-bottom:16px">
             <div class="card kpi">
                 <div class="kpi-value" style="color:var(--gold)" id="consentRate">-</div>
                 <div class="kpi-label">현재 동의율</div>
@@ -268,7 +278,7 @@
             <div style="font-size:13px;color:var(--t2);line-height:1.8;margin-bottom:10px">
                 지금 이 지역에 쏟아지는 호재만으로도 가치 상승의 근거는 이미 충분합니다.
             </div>
-            <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px">
+            <div class="hojae-grid" style="margin-bottom:14px">
                 <div style="padding:14px 12px;background:var(--surface);border-radius:8px;border-left:3px solid var(--accent);text-align:center">
                     <div style="font-size:11px;color:var(--t4);margin-bottom:6px">재개발</div>
                     <div style="font-size:13px;font-weight:600;color:var(--t1);margin-bottom:4px;line-height:1.4">방배15구역</div>
@@ -370,8 +380,8 @@
             </div>
             <div class="card">
                 <h2>🏙️ 재개발 후 예상 조감도</h2>
-                <div style="position:relative;width:100%;height:300px;border-radius:8px;overflow:hidden">
-                    <img src="/bangbae/files/bangbae_rendering.png" alt="방배2동 재개발 조감도" style="display:block;width:100%;height:300px;object-fit:cover"/>
+                <div class="rendering-wrap" style="position:relative;width:100%;border-radius:8px;overflow:hidden">
+                    <img src="/bangbae/files/bangbae_rendering.png" alt="방배2동 재개발 조감도" class="rendering-img" style="display:block;width:100%;object-fit:cover"/>
                     <div style="position:absolute;left:8%;top:40%;padding:4px 10px;background:rgba(26,26,46,0.85);color:#fff;font-size:12px;font-weight:600;border-radius:6px;white-space:nowrap;pointer-events:none;box-shadow:0 2px 8px rgba(0,0,0,0.3)">🏫 이수초등학교</div>
                     <div style="position:absolute;right:6%;top:6%;padding:4px 10px;background:rgba(26,122,58,0.9);color:#fff;font-size:12px;font-weight:600;border-radius:6px;white-space:nowrap;pointer-events:none;box-shadow:0 2px 8px rgba(0,0,0,0.3)">🌳 도구머리공원</div>
                 </div>
