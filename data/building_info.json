@@ -1,0 +1,530 @@
+{
+  "474-1": {
+    "name": "",
+    "units": 0,
+    "purpose": "단독주택",
+    "detail": "주택, 근린생활시설",
+    "floors": "2",
+    "built": "1982"
+  },
+  "474-2": {
+    "name": "도브빌I",
+    "units": 4,
+    "purpose": "공동주택",
+    "detail": "공동주택(다세대주택)(4)",
+    "floors": "5",
+    "built": "2003"
+  },
+  "474-3": {
+    "name": "도브빌 2",
+    "units": 4,
+    "purpose": "공동주택",
+    "detail": "공동주택(다세대주택)(4)",
+    "floors": "5",
+    "built": "2003"
+  },
+  "474-4": {
+    "name": "",
+    "units": 10,
+    "purpose": "공동주택",
+    "detail": "공동주택(다세대주택)(10)",
+    "floors": "5",
+    "built": "2002"
+  },
+  "474-5": {
+    "name": "",
+    "units": 0,
+    "purpose": "단독주택",
+    "detail": "다가구용단독주택",
+    "floors": "3",
+    "built": "1996"
+  },
+  "474-6": {
+    "name": "",
+    "units": 0,
+    "purpose": "단독주택",
+    "detail": "다가구주택(6가구),근린생활시설",
+    "floors": "3",
+    "built": "1996"
+  },
+  "474-7": {
+    "name": "",
+    "units": 0,
+    "purpose": "단독주택",
+    "detail": "근린생활시설,다가구주택",
+    "floors": "5",
+    "built": "2003"
+  },
+  "474-8": {
+    "name": "제네시스빌",
+    "units": 8,
+    "purpose": "공동주택",
+    "detail": "다세대주택(8)",
+    "floors": "5",
+    "built": "2015"
+  },
+  "474-9": {
+    "name": "방배리치빌",
+    "units": 19,
+    "purpose": "공동주택",
+    "detail": "아파트(19)",
+    "floors": "7",
+    "built": "2002"
+  },
+  "474-13": {
+    "name": "",
+    "units": 0,
+    "purpose": "제1종근린생활시설",
+    "detail": "근린생활시설",
+    "floors": "5",
+    "built": "1985"
+  },
+  "474-14": {
+    "name": "엔지니어링",
+    "units": 0,
+    "purpose": "업무시설",
+    "detail": "업무시설",
+    "floors": "8",
+    "built": "1997"
+  },
+  "474-15": {
+    "name": "",
+    "units": 0,
+    "purpose": "업무시설",
+    "detail": "업무시설, 근린생활시설",
+    "floors": "6",
+    "built": "1992"
+  },
+  "474-17": {
+    "name": "",
+    "units": 0,
+    "purpose": "단독주택",
+    "detail": "다가구용단독주택",
+    "floors": "3",
+    "built": "1997"
+  },
+  "474-18": {
+    "name": "",
+    "units": 0,
+    "purpose": "단독주택",
+    "detail": "다가구용단독주택",
+    "floors": "3",
+    "built": "1997"
+  },
+  "474-19": {
+    "name": "",
+    "units": 0,
+    "purpose": "제1종근린생활시설",
+    "detail": "근린생활시설, 단독주택",
+    "floors": "4",
+    "built": "1997"
+  },
+  "474-20": {
+    "name": "",
+    "units": 0,
+    "purpose": "제2종근린생활시설",
+    "detail": "일반음식점, 소매점, 사무소",
+    "floors": "5",
+    "built": "2021"
+  },
+  "474-21": {
+    "name": "",
+    "units": 8,
+    "purpose": "공동주택",
+    "detail": "공동주택(다세대주택)(8)",
+    "floors": "5",
+    "built": "2003"
+  },
+  "474-22": {
+    "name": "",
+    "units": 0,
+    "purpose": "제1종근린생활시설",
+    "detail": "근린생활시설, 주택",
+    "floors": "4",
+    "built": "1988"
+  },
+  "474-34": {
+    "name": "",
+    "units": 0,
+    "purpose": "단독주택",
+    "detail": "다가구용단독주택",
+    "floors": "3",
+    "built": "1997"
+  },
+  "474-36": {
+    "name": "",
+    "units": 0,
+    "purpose": "제1종근린생활시설",
+    "detail": "근린생활시설",
+    "floors": "4",
+    "built": "1984"
+  },
+  "474-37": {
+    "name": "",
+    "units": 0,
+    "purpose": "제2종근린생활시설",
+    "detail": "근린생활시설",
+    "floors": "5",
+    "built": "1984"
+  },
+  "474-38": {
+    "name": "",
+    "units": 0,
+    "purpose": "",
+    "detail": "데이터없음",
+    "floors": "",
+    "built": ""
+  },
+  "475-1": {
+    "name": "",
+    "units": 0,
+    "purpose": "제2종근린생활시설",
+    "detail": "근린생활시설",
+    "floors": "3",
+    "built": "1979"
+  },
+  "475-2": {
+    "name": "",
+    "units": 0,
+    "purpose": "단독주택",
+    "detail": "근린생활시설, 주택",
+    "floors": "3",
+    "built": "1983"
+  },
+  "475-3": {
+    "name": "",
+    "units": 0,
+    "purpose": "자동차관련시설",
+    "detail": "자동차관련시설",
+    "floors": "1",
+    "built": "2004"
+  },
+  "475-4": {
+    "name": "",
+    "units": 0,
+    "purpose": "제2종근린생활시설",
+    "detail": "근린생활시설",
+    "floors": "5",
+    "built": "1995"
+  },
+  "475-5": {
+    "name": "",
+    "units": 4,
+    "purpose": "공동주택",
+    "detail": "공동주택(4)",
+    "floors": "4",
+    "built": "2000"
+  },
+  "475-7": {
+    "name": "래디앙",
+    "units": 10,
+    "purpose": "공동주택",
+    "detail": "다세대주택,근린생활시설(10)",
+    "floors": "7",
+    "built": "2017"
+  },
+  "475-8": {
+    "name": "",
+    "units": 5,
+    "purpose": "공동주택",
+    "detail": "공동주택,근린생활시설(5)",
+    "floors": "6",
+    "built": "2016"
+  },
+  "475-9": {
+    "name": "",
+    "units": 0,
+    "purpose": "단독주택",
+    "detail": "주택, 주택",
+    "floors": "2",
+    "built": "1979"
+  },
+  "475-11": {
+    "name": "",
+    "units": 12,
+    "purpose": "공동주택",
+    "detail": "공동주택(12)",
+    "floors": "3",
+    "built": "1991"
+  },
+  "475-12": {
+    "name": "",
+    "units": 0,
+    "purpose": "단독주택",
+    "detail": "주택",
+    "floors": "2",
+    "built": "1978"
+  },
+  "475-13": {
+    "name": "",
+    "units": 4,
+    "purpose": "공동주택",
+    "detail": "다세대주택(4)",
+    "floors": "5",
+    "built": "2015"
+  },
+  "475-14": {
+    "name": "",
+    "units": 4,
+    "purpose": "공동주택",
+    "detail": "공동주택(다세대주택)(4)",
+    "floors": "5",
+    "built": "1991"
+  },
+  "475-15": {
+    "name": "",
+    "units": 0,
+    "purpose": "단독주택",
+    "detail": "다가구용단독주택(7가구)",
+    "floors": "3",
+    "built": "1995"
+  },
+  "475-16": {
+    "name": "",
+    "units": 0,
+    "purpose": "단독주택",
+    "detail": "다가구용단독주택",
+    "floors": "3",
+    "built": "1997"
+  },
+  "475-17": {
+    "name": "노랑주유소",
+    "units": 0,
+    "purpose": "위험물저장및처리시설",
+    "detail": "주유소",
+    "floors": "2",
+    "built": "1994"
+  },
+  "475-18": {
+    "name": "",
+    "units": 0,
+    "purpose": "제2종근린생활시설",
+    "detail": "근린생활시설",
+    "floors": "4",
+    "built": "1983"
+  },
+  "475-19": {
+    "name": "",
+    "units": 0,
+    "purpose": "제2종근린생활시설",
+    "detail": "근린생활시설, 주택",
+    "floors": "4",
+    "built": "1987"
+  },
+  "475-20": {
+    "name": "",
+    "units": 0,
+    "purpose": "제2종근린생활시설",
+    "detail": "근린생활시설",
+    "floors": "4",
+    "built": "1988"
+  },
+  "475-22": {
+    "name": "",
+    "units": 0,
+    "purpose": "업무시설",
+    "detail": "업무시설",
+    "floors": "9",
+    "built": "1995"
+  },
+  "475-26": {
+    "name": "방배동 근생주택",
+    "units": 0,
+    "purpose": "제2종근린생활시설",
+    "detail": "제2종근린생활시설,다가구주택",
+    "floors": "6",
+    "built": "2003"
+  },
+  "475-27": {
+    "name": "",
+    "units": 0,
+    "purpose": "단독주택",
+    "detail": "주택, 주택",
+    "floors": "2",
+    "built": "1983"
+  },
+  "475-28": {
+    "name": "",
+    "units": 0,
+    "purpose": "단독주택",
+    "detail": "주택",
+    "floors": "2",
+    "built": "1983"
+  },
+  "475-29": {
+    "name": "",
+    "units": 0,
+    "purpose": "제1종근린생활시설",
+    "detail": "근린생활시설",
+    "floors": "3",
+    "built": "1998"
+  },
+  "475-31": {
+    "name": "큐라클빌딩",
+    "units": 0,
+    "purpose": "업무시설",
+    "detail": "근린생활시설",
+    "floors": "6",
+    "built": "1992"
+  },
+  "527-7": {
+    "name": "MAIBAUM",
+    "units": 0,
+    "purpose": "단독주택",
+    "detail": "단독주택",
+    "floors": "4",
+    "built": "2011"
+  },
+  "527-8": {
+    "name": "",
+    "units": 0,
+    "purpose": "단독주택",
+    "detail": "다가구용단독주택(7가구)",
+    "floors": "3",
+    "built": "1994"
+  },
+  "527-9": {
+    "name": "",
+    "units": 11,
+    "purpose": "공동주택",
+    "detail": "다세대주택(11)",
+    "floors": "4",
+    "built": "2002"
+  },
+  "528": {
+    "name": "",
+    "units": 3,
+    "purpose": "공동주택",
+    "detail": "공동주택(3)",
+    "floors": "2",
+    "built": "1991"
+  },
+  "528-93": {
+    "name": "",
+    "units": 0,
+    "purpose": "",
+    "detail": "데이터없음",
+    "floors": "",
+    "built": ""
+  },
+  "528-94": {
+    "name": "",
+    "units": 4,
+    "purpose": "공동주택",
+    "detail": "공동주택(4)",
+    "floors": "2",
+    "built": "1987"
+  },
+  "528-95": {
+    "name": "",
+    "units": 6,
+    "purpose": "공동주택",
+    "detail": "공동주택(6)",
+    "floors": "3",
+    "built": "1992"
+  },
+  "528-97": {
+    "name": "",
+    "units": 0,
+    "purpose": "제2종근린생활시설",
+    "detail": "제2종근린생활시설",
+    "floors": "3",
+    "built": "2004"
+  },
+  "528-98": {
+    "name": "",
+    "units": 0,
+    "purpose": "",
+    "detail": "데이터없음",
+    "floors": "",
+    "built": ""
+  },
+  "531-1": {
+    "name": "",
+    "units": 0,
+    "purpose": "단독주택",
+    "detail": "주택, 점포",
+    "floors": "2",
+    "built": "1978"
+  },
+  "531-7": {
+    "name": "",
+    "units": 6,
+    "purpose": "공동주택",
+    "detail": "공동주택(6)",
+    "floors": "4",
+    "built": "1993"
+  },
+  "531-8": {
+    "name": "",
+    "units": 0,
+    "purpose": "",
+    "detail": "데이터없음",
+    "floors": "",
+    "built": ""
+  },
+  "531-9": {
+    "name": "포레스트빌",
+    "units": 5,
+    "purpose": "공동주택",
+    "detail": "공동주택(다세대주택)(5)",
+    "floors": "5",
+    "built": "1993"
+  },
+  "980-23": {
+    "name": "방배동 종로교회",
+    "units": 0,
+    "purpose": "종교시설",
+    "detail": "종교시설",
+    "floors": "6",
+    "built": "1986"
+  },
+  "980-24": {
+    "name": "",
+    "units": 4,
+    "purpose": "공동주택",
+    "detail": "공동주택(4)",
+    "floors": "2",
+    "built": "1989"
+  },
+  "980-25": {
+    "name": "비전힐",
+    "units": 18,
+    "purpose": "공동주택",
+    "detail": "공동주택(아파트)(18)",
+    "floors": "7",
+    "built": "2006"
+  },
+  "980-26": {
+    "name": "아이티타워빌딩",
+    "units": 0,
+    "purpose": "업무시설",
+    "detail": "업무시설",
+    "floors": "6",
+    "built": "2007"
+  },
+  "980-27": {
+    "name": "",
+    "units": 9,
+    "purpose": "공동주택",
+    "detail": "공동주택",
+    "floors": "2",
+    "built": "1987"
+  },
+  "980-54": {
+    "name": "싸이버원",
+    "units": 0,
+    "purpose": "제2종근린생활시설",
+    "detail": "근린생활시설",
+    "floors": "4",
+    "built": "1990"
+  },
+  "980-56": {
+    "name": "",
+    "units": 0,
+    "purpose": "제2종근린생활시설",
+    "detail": "근린생활시설, 자동차 관련시설",
+    "floors": "2",
+    "built": "1993"
+  }
+}
