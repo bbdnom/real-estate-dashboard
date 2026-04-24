@@ -223,7 +223,7 @@
             <button class="pg-tab" onclick="showPage('trade',this)">서초구 실거래</button>
             <button class="pg-tab" onclick="showPage('policy',this)">정책</button>
             <button class="pg-tab" onclick="showPage('news',this)">뉴스</button>
-            <a class="pg-tab" href="https://jeongbi-navi.vercel.app/guide/redevelopment-basics" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block">📘 재개발 가이드</a>
+            <button class="pg-tab" onclick="showPage('guide',this)">📘 재개발 가이드</button>
         </div>
     </div>
 
@@ -552,6 +552,231 @@
                     <button class="pg-chip" onclick="qNews('청약 분양')">청약·분양</button>
                 </div>
                 <div id="newsResults"><div style="text-align:center;padding:40px;color:var(--t4)"><div class="spinner"></div></div></div>
+            </div>
+        </div>
+
+        <!-- ===== 재개발 가이드 페이지 ===== -->
+        <div id="pageGuide" class="page-section">
+            <div class="card" style="margin-bottom:16px">
+                <div style="color:var(--gold);font-size:11px;letter-spacing:.12em;margin-bottom:8px">GUIDE · 01</div>
+                <h2 style="font-size:22px;margin-bottom:10px">재개발 마스터 가이드</h2>
+                <p style="color:var(--t3);font-size:13px;line-height:1.7;margin:0">민간 재개발(도정법)과 LH 도심공공주택복합사업의 단계·동의율·권리구조 차이를 체계적으로 정리.</p>
+            </div>
+
+            <!-- 1. 전체 지도 -->
+            <div class="card" style="margin-bottom:16px">
+                <h2>1. 재개발은 하나가 아니다 — 전체 지도</h2>
+                <p style="color:var(--t2);font-size:13px;line-height:1.7;margin-bottom:12px">재개발을 이해하기 위해 먼저 <strong style="color:var(--t1)">적용 법령</strong>으로 구분해야 한다. 단계와 권리 구조가 법마다 다르기 때문이다.</p>
+                <table>
+                    <thead><tr><th>유형</th><th>근거법</th><th>사업시행자</th><th>성격</th></tr></thead>
+                    <tbody>
+                        <tr><td style="color:var(--t1);font-weight:600">재개발 / 재건축</td><td>도시 및 주거환경정비법(도정법)</td><td>조합</td><td>민간 주도</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">도심공공주택복합사업</td><td>공공주택특별법</td><td>LH·SH 등 공공</td><td>공공 주도 (2021.2.4 대책)</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">공공재개발 / 공공재건축</td><td>도정법 + 공공주택특별법 특례</td><td>공공 + 조합 공동</td><td>하이브리드</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">소규모 정비사업</td><td>빈집 및 소규모주택정비법</td><td>조합 또는 주민합의체</td><td>단지 단위</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">노후계획도시 정비</td><td>노후계획도시정비법 (2024.4 시행)</td><td>특별시장 등 지정</td><td>1기 신도시 등</td></tr>
+                    </tbody>
+                </table>
+                <p style="color:var(--t2);font-size:13px;line-height:1.7;margin-top:12px">본 가이드는 <strong style="color:var(--t1)">① 도정법상 재개발</strong>과 <strong style="color:var(--t1)">② 공공주택특별법상 도심공공주택복합사업</strong>의 비교에 초점을 둔다.</p>
+            </div>
+
+            <!-- 2. 민간 재개발 -->
+            <div class="card" style="margin-bottom:16px">
+                <h2>2. 민간 재개발 단계 (도정법)</h2>
+                <h3 style="font-size:14px;color:var(--t1);margin:16px 0 8px">2-1. 전체 흐름 (평균 13~15년)</h3>
+                <pre style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:14px;color:var(--t2);font-size:12px;line-height:1.7;overflow:auto;margin:8px 0;font-family:'SF Mono',Monaco,monospace">① 기본계획 수립 (시·도, 10년 단위)
+   ↓
+② 정비구역 지정 + 정비계획 수립 (구청장)
+   ├ 주민공람(30일) → 시의회 의견 → 시 도시계획위원회 심의
+   └ ★ 권리산정기준일 = 지정 공람공고일
+   ↓
+③ 추진위원회 구성·승인  (토지등소유자 과반수 동의)
+   ↓
+④ 조합설립 인가
+   └ 토지등소유자 3/4 이상 + 토지면적 1/2 이상 (도정법 제35조)
+   ↓
+⑤ 시공사 선정 (조합 총회 경쟁입찰)
+   ↓
+⑥ 각종 영향평가 (건축·교통·환경)
+   ↓
+⑦ 사업시행계획 인가
+   ├ 설계·세대 구성·총 사업비 확정
+   └ 조합원 분양신청 개시
+   ↓
+⑧ 관리처분계획 인가  ★ 재개발의 하이라이트
+   ├ 비례율·분담금 확정
+   ├ 조합원·일반분양 물량 확정
+   └ 종전 자산 → 분양권으로 전환
+   ↓
+⑨ 이주·철거
+   ↓
+⑩ 착공 → 일반분양 → 준공
+   ↓
+⑪ 이전고시·청산  (조합 해산)</pre>
+
+                <h3 style="font-size:14px;color:var(--t1);margin:20px 0 8px">2-2. 단계별 핵심 포인트</h3>
+                <div style="color:var(--t2);font-size:13px;line-height:1.85">
+                    <p style="margin:8px 0"><strong style="color:var(--t1)">정비구역 지정(②)</strong> · 노후도 요건 통상 20년 이상 건축물 2/3 이상. 권리산정기준일은 지정 공람공고일 — 이전 소유자만 분양권 부여. 지분 쪼개기 차단 장치.</p>
+                    <p style="margin:8px 0"><strong style="color:var(--t1)">조합설립 인가(④)</strong> · 동의율 3/4은 사람 수, 1/2은 토지면적 — 둘 다 충족 필요. 조합은 법인격, 이후 모든 법률행위의 주체.</p>
+                    <p style="margin:8px 0"><strong style="color:var(--t1)">시공사 선정(⑤)</strong> · 이 시점 이후 시공사 브랜드·시공비가 사업성에 결정적. 시공비 재협상 분쟁이 가장 빈발하는 지점(둔촌주공·반포주공 사례).</p>
+                    <p style="margin:8px 0"><strong style="color:var(--t1)">사업시행계획 인가(⑦)</strong> · 건축 규모·세대 수·일반분양 비율·기부채납 확정. 분양신청 기간 내 신청 안 하면 현금청산 대상.</p>
+                    <p style="margin:8px 0"><strong style="color:var(--t1)">관리처분계획 인가(⑧) — 가장 중요</strong> · 비례율과 개별 분담금이 확정되는 시점. 이후 조합원 권리는 부동산이 아닌 분양권. 90일 내 이주 개시.</p>
+                </div>
+                <div style="background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.3);border-left:3px solid var(--emerald);padding:12px 16px;border-radius:6px;margin:12px 0;color:var(--t2);font-size:13px;line-height:1.7">
+                    <strong style="color:var(--t1)">비례율 공식</strong><br>
+                    비례율 = (종후자산 평가액 − 총사업비) ÷ 종전자산 평가액<br>
+                    조합원 분담금 = (종전자산 × 비례율) − 조합원 분양가
+                </div>
+                <p style="color:var(--t2);font-size:13px;line-height:1.7;margin:8px 0"><strong style="color:var(--t1)">이전고시(⑪)</strong> · 준공 후 토지·건축물 명의가 조합원에게 최종 이전. 이 시점부터 등기·매매 가능.</p>
+
+                <h3 style="font-size:14px;color:var(--t1);margin:20px 0 8px">2-3. 조합원 관점 결정 시점</h3>
+                <table>
+                    <thead><tr><th>시점</th><th>결정 사항</th></tr></thead>
+                    <tbody>
+                        <tr><td style="color:var(--t1);font-weight:600">정비구역 지정 직전</td><td>지분 쪼개기 금지 경계선 (권리산정기준일)</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">조합설립 동의</td><td>참여 여부 확정</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">시공사 선정 총회</td><td>시공비 수준·브랜드</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">분양신청 기간</td><td>분양 받을지 / 현금청산 할지</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">관리처분 인가</td><td>분담금 확정, 이주 대비</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">이전고시</td><td>등기 이전, 매매 가능</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 3. LH 도심복합 -->
+            <div class="card" style="margin-bottom:16px">
+                <h2>3. LH 도심공공주택복합사업 단계</h2>
+                <h3 style="font-size:14px;color:var(--t1);margin:16px 0 8px">3-1. 전체 흐름 (정부 목표 5~8년)</h3>
+                <pre style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:14px;color:var(--t2);font-size:12px;line-height:1.7;overflow:auto;margin:8px 0;font-family:'SF Mono',Monaco,monospace">① 후보지 공모 (국토부·LH)
+   └ 주민 제안 또는 지자체 제안
+   ↓
+② 후보지 선정  ★ 권리산정기준일
+   └ 공공주택특별법 제40조의10 (2025.1.31 개정)
+   ↓
+③ 동의율 확보 (토지등소유자 10% 이상)
+   └ 예정지구 지정 신청 요건
+   ↓
+④ 예정지구 지정 (국토부)
+   ↓
+⑤ 본지구 지정 (토지등소유자 2/3 이상 동의)
+   ├ 지구계획·주민 보상 방안 확정
+   └ 이 시점 이후 개별 이주 시작 가능
+   ↓
+⑥ 사업계획 승인
+   ↓
+⑦ 토지·건축물 수용 또는 현물보상 선택
+   ↓
+⑧ 이주·철거
+   ↓
+⑨ 착공 → 공공분양·공공임대 분양
+   ↓
+⑩ 준공·이전고시</pre>
+
+                <h3 style="font-size:14px;color:var(--t1);margin:20px 0 8px">3-2. 민간과 구조적으로 다른 5가지</h3>
+                <table>
+                    <thead><tr><th style="width:18%">구분</th><th style="width:41%">민간 재개발</th><th style="width:41%">LH 도심복합사업</th></tr></thead>
+                    <tbody>
+                        <tr><td style="color:var(--t1);font-weight:600">① 사업시행자</td><td>조합 (토지등소유자 법인)</td><td>공공 (LH·SH 등) — 주민대표자 협의체만</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">② 소유권 이전</td><td>분양권으로 전환 (소유권 유지 형식)</td><td>공공이 수용·매입 → 현금/현물보상</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">③ 수익 배분</td><td>비례율에 따라 조합원 귀속</td><td>개발 이익 대부분 공공, 주민은 감정가 보상</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">④ 동의율 문턱</td><td>조합설립 3/4 + 1/2</td><td>예정지구 10% → 본지구 2/3</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">⑤ 권리산정기준일</td><td>정비구역 지정 공람공고일</td><td>후보지 선정일 (2025.1.31 개정)</td></tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size:14px;color:var(--t1);margin:20px 0 8px">3-3. 토지등소유자의 보상 구조</h3>
+                <div style="background:rgba(94,106,210,.08);border:1px solid rgba(94,106,210,.3);border-left:3px solid var(--accent);padding:12px 16px;border-radius:6px;margin:10px 0;color:var(--t2);font-size:13px;line-height:1.7">
+                    <strong style="color:var(--t1)">옵션 A — 현금청산</strong><br>
+                    감정평가 기준 (통상 시세의 70~80%) · 즉시 청산 가능 · 재정착 불가 · 개발 이익 포기
+                </div>
+                <div style="background:rgba(94,106,210,.08);border:1px solid rgba(94,106,210,.3);border-left:3px solid var(--accent);padding:12px 16px;border-radius:6px;margin:10px 0;color:var(--t2);font-size:13px;line-height:1.7">
+                    <strong style="color:var(--t1)">옵션 B — 현물보상 (우선공급권)</strong><br>
+                    감정가만큼 새 아파트 분양권 교환 · 추가 면적 시 차액 납부(분담금) · 공공분양가가 시세 대비 낮아 실익 존재 · 이주 기간 거주지 공백 발생
+                </div>
+                <p style="color:var(--t2);font-size:13px;line-height:1.7;margin:12px 0 0">→ 토지소유자 입장에서 핵심은 <strong style="color:var(--t1)">"감정가가 얼마로 책정되는가"</strong>와 <strong style="color:var(--t1)">"공공분양가가 얼마인가"</strong>다.</p>
+            </div>
+
+            <!-- 4. 비교표 -->
+            <div class="card" style="margin-bottom:16px">
+                <h2>4. 민간 재개발 vs LH — 의사결정용 비교표</h2>
+                <table>
+                    <thead><tr><th style="width:22%">항목</th><th style="width:39%">민간 재개발</th><th style="width:39%">LH 도심공공주택복합</th></tr></thead>
+                    <tbody>
+                        <tr><td style="color:var(--t1);font-weight:600">근거법</td><td>도정법</td><td>공공주택특별법</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">사업시행자</td><td>조합</td><td>LH 등 공공</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">주민 조직</td><td>조합 (법인)</td><td>주민대표자 협의체</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">예상 기간</td><td>13~15년</td><td>5~8년 (이론), 실제 지연 다수</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">초기 동의율</td><td>3/4 + 1/2 (조합설립)</td><td>10% (예정지구 신청)</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">지구지정 동의</td><td>조합설립으로 대체</td><td>2/3 (본지구)</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">용적률 인센티브</td><td>법정상한</td><td>법정상한 × 1.2~1.4배</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">기부채납</td><td>통상 15~25%</td><td>협의 (공공임대 비중으로 흡수)</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">소유권 처리</td><td>분양권 전환 (유지)</td><td>수용 → 현금 또는 현물보상</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">개발 이익 귀속</td><td>조합원</td><td>공공 (낮은 분양가로 간접 환원)</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">분양가 구조</td><td>시세 또는 분양가상한제</td><td>공공분양가 (시세 대비 낮음)</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">임대 의무</td><td>일부 소형</td><td>공공임대 20%+ 필수</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">이주 방식</td><td>자율 이주</td><td>공공 보상 후 이주</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">권리산정기준일</td><td>정비구역 지정 공람공고일</td><td>후보지 선정일 (2025.1.31 개정)</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">재건축 초과이익 환수</td><td>적용</td><td>미적용</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">위험 성격</td><td>사업성 리스크 전부 조합 부담</td><td>사업성 리스크 공공 부담</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 5. 민간 vs LH 전환 판단 -->
+            <div class="card" style="margin-bottom:16px">
+                <h2>5. 민간 재개발 vs LH — 어느 방식이 유리한가</h2>
+                <p style="color:var(--t2);font-size:13px;line-height:1.7;margin-bottom:12px">구역 여건에 따라 두 방식의 장단점이 달라진다. 아래 표는 일반적인 판단 기준이며, 실제 결정은 구역별 시세·주민 구성·사업 여건을 종합 검토해야 한다.</p>
+                <table>
+                    <thead><tr><th>조건</th><th>유리한 방식</th></tr></thead>
+                    <tbody>
+                        <tr><td style="color:var(--t1);font-weight:600">사업성(감정가 상승 여력) 높음</td><td>민간 재개발 (개발 이익 귀속)</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">사업 기간 단축 우선</td><td>LH (절차 단축·인센티브)</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">동의율 확보 어려움</td><td>LH (2/3만 필요)</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">시세 이미 높은 입지</td><td>민간 재개발 (시세 기반 분양)</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">금융 리스크(PF) 회피</td><td>LH (공공이 전담)</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">주민 연령·자금력 제한적</td><td>LH (절차·비용 부담 낮음)</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">브랜드 아파트·고급화 지향</td><td>민간 재개발</td></tr>
+                    </tbody>
+                </table>
+                <div style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.3);border-left:3px solid var(--gold);padding:12px 16px;border-radius:6px;margin:12px 0 0;color:var(--t2);font-size:13px;line-height:1.7">
+                    <strong style="color:var(--t1)">핵심 트레이드오프</strong><br>
+                    민간 재개발은 수익률 상한이 높지만 10~15년 사업 기간·PF 리스크·주민 간 갈등을 감내해야 한다. LH 방식은 공공이 리스크를 떠안는 대신 개발 이익 대부분이 공공에 귀속되고 분양가상한제·공공임대 의무가 따른다.
+                </div>
+            </div>
+
+            <!-- 6. 법령 -->
+            <div class="card" style="margin-bottom:16px">
+                <h2>6. 법령 원문 찾을 때 참고</h2>
+                <table>
+                    <thead><tr><th>영역</th><th>근거 조문</th></tr></thead>
+                    <tbody>
+                        <tr><td style="color:var(--t1);font-weight:600">민간 재개발 전체</td><td>도시 및 주거환경정비법</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">조합설립 동의율</td><td>도정법 제35조</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">관리처분계획</td><td>도정법 제74조</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">재건축 초과이익 환수</td><td>재건축초과이익 환수에 관한 법률</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">도심공공주택복합사업</td><td>공공주택특별법 제40조의7~17</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">권리산정기준일</td><td>공공주택특별법 제40조의10 (2025.1.31 개정)</td></tr>
+                        <tr><td style="color:var(--t1);font-weight:600">노후계획도시</td><td>노후계획도시정비법 (2024.4.27 시행)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 7. 실무 혼동 -->
+            <div class="card" style="margin-bottom:16px">
+                <h2>7. 실무에서 자주 혼동되는 포인트</h2>
+                <ol style="color:var(--t2);font-size:13px;line-height:1.9;padding-left:20px;margin:8px 0">
+                    <li><strong style="color:var(--t1)">"재개발"과 "재건축"은 다르다</strong> — 재개발은 기반시설 미비 지역(도로·상하수도 등) 포함, 재건축은 건축물만 대상</li>
+                    <li><strong style="color:var(--t1)">"분양권"과 "입주권"</strong> — 관리처분 인가 전은 "입주권"(조합원 지위), 후는 "분양권"(분양계약)</li>
+                    <li><strong style="color:var(--t1)">현금청산 시점</strong> — 분양신청 미참여자는 관리처분 인가 후 청산 대상. 청산금 지급까지 1~3년 소요</li>
+                    <li><strong style="color:var(--t1)">이주비</strong> — 유상임차(이자 있음), 무이자는 지자체 보조 시에만</li>
+                    <li><strong style="color:var(--t1)">조합장 리스크</strong> — 조합장 해임·소송이 사업 지연 최다 원인. LH 방식은 이 리스크 없음</li>
+                    <li><strong style="color:var(--t1)">일몰제</strong> — 조합설립 후 일정 기간 내 사업시행 인가 받지 못하면 구역 해제 (서울시 조례상 2년)</li>
+                    <li><strong style="color:var(--t1)">도심복합사업 한계</strong> — 공공주택 의무 때문에 고급화 한계, 브랜드 선호 주민에게 심리적 저항</li>
+                </ol>
+                <div style="color:var(--t4);font-size:11px;line-height:1.7;margin-top:16px;padding-top:12px;border-top:1px solid var(--border)">
+                    · 본 자료는 정보 제공 목적이며 법률·투자 자문이 아닙니다. 실제 거래·절차 진행 전 공인중개사·세무사·법무사·감정평가사와 확인하세요.<br>
+                    · 법령 개정 시점은 2026.04 기준이며, 변경 가능성이 있습니다.
+                </div>
             </div>
         </div>
 
