@@ -789,16 +789,41 @@
         let kakaoMap=null;
 
         // 페이지 전환
-        function showPage(page,btn){
+        const TAB_PATHS={main:'/',trade:'/trade',policy:'/policy',news:'/news',guide:'/guide'};
+        function activateTab(page,updateUrl){
             document.querySelectorAll('.page-section').forEach(s=>s.classList.remove('active'));
             document.querySelectorAll('.pg-tab').forEach(t=>t.classList.remove('active'));
-            document.getElementById('page'+page.charAt(0).toUpperCase()+page.slice(1)).classList.add('active');
-            btn.classList.add('active');
-            window.scrollTo({top:0,behavior:'smooth'});
+            const sec=document.getElementById('page'+page.charAt(0).toUpperCase()+page.slice(1));
+            if(sec)sec.classList.add('active');
+            // 해당 페이지 버튼 active
+            document.querySelectorAll('.pg-tab').forEach(t=>{
+                const m=(t.getAttribute('onclick')||'').match(/showPage\('(\w+)'/);
+                if(m&&m[1]===page)t.classList.add('active');
+            });
+            if(updateUrl){
+                const target=TAB_PATHS[page]||'/';
+                if(location.pathname!==target)history.pushState({page},'',target);
+            }
             if(page==='main'&&kakaoMap)setTimeout(()=>kakaoMap.relayout(),100);
             if(page==='policy')loadPolicyTab();
             if(page==='news'&&!newsLoaded)searchNews();
         }
+        function showPage(page,btn){
+            activateTab(page,true);
+            window.scrollTo({top:0,behavior:'smooth'});
+        }
+        // 최초 로드 시 pathname 기반 탭 선택
+        (function initTabFromPath(){
+            const path=location.pathname.replace(/\/$/,'')||'/';
+            const entry=Object.entries(TAB_PATHS).find(([,p])=>p===path);
+            const page=entry?entry[0]:'main';
+            if(page!=='main')activateTab(page,false);
+        })();
+        window.addEventListener('popstate',()=>{
+            const path=location.pathname.replace(/\/$/,'')||'/';
+            const entry=Object.entries(TAB_PATHS).find(([,p])=>p===path);
+            activateTab(entry?entry[0]:'main',false);
+        });
 
         // ===== 서초구 실거래 =====
         let tradeVolChart=null;

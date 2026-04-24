@@ -79,6 +79,15 @@ def blog_page(slug):
     return send_from_directory('client/dist', f'blog-{slug}.html')
 
 
+@app.route('/guide')
+@app.route('/guide/')
+@app.route('/trade')
+@app.route('/policy')
+@app.route('/news')
+def tab_routes():
+    return send_from_directory('client/dist', 'bangbae.html')
+
+
 @app.route('/dashboard')
 def dashboard_old():
     return send_from_directory('client/dist', 'index.html')
