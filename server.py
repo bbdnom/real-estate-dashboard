@@ -84,6 +84,7 @@ def blog_page(slug):
 @app.route('/trade')
 @app.route('/policy')
 @app.route('/news')
+@app.route('/calc')
 def tab_routes():
     return send_from_directory('client/dist', 'bangbae.html')
 
@@ -749,6 +750,191 @@ def reverse_geocode():
         return jsonify({'error': 'not found'}), 404
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
+# ===== 방배동 분담금 계산기 =====
+_BANGBAE_LAND = None
+_BANGBAE_BULD = None
+_BANGBAE_EXPOS = None
+
+
+def _load_bangbae_data():
+    """방배동 데이터 lazy load"""
+    global _BANGBAE_LAND, _BANGBAE_BULD, _BANGBAE_EXPOS
+    if _BANGBAE_LAND is None:
+        base = '/home/hemannkim/bangbae'
+        if not os.path.exists(base):
+            base = os.path.join(os.path.dirname(__file__), 'data')
+        for fname, var in [('land_chars.json', 'land'), ('buld_cong_data.json', 'buld'), ('expos_area.json', 'expos')]:
+            p = os.path.join(base, fname)
+            if os.path.exists(p):
+                with open(p) as f:
+                    if var == 'land': _BANGBAE_LAND = json.load(f)
+                    elif var == 'buld': _BANGBAE_BULD = json.load(f)
+                    elif var == 'expos': _BANGBAE_EXPOS = json.load(f)
+        _BANGBAE_LAND = _BANGBAE_LAND or {}
+        _BANGBAE_BULD = _BANGBAE_BULD or {}
+        _BANGBAE_EXPOS = _BANGBAE_EXPOS or {}
+
+
+@app.route('/api/bangbae/parcels')
+def bangbae_parcels():
+    """방배동 66개 필지 목록 (단독/집합건물 구분)"""
+    _load_bangbae_data()
+    parcels = []
+    for pid, info in _BANGBAE_LAND.items():
+        is_apt = pid in _BANGBAE_BULD
+        units = []
+        if is_apt:
+            seen = set()
+            for item in _BANGBAE_BULD[pid]:
+                ho = item.get('buldHoNm', '').lstrip('0') or item.get('buldHoNm', '')
+                if ho in seen or ho in ['0000', '']: continue
+                seen.add(ho)
+                units.append({
+                    'ho': ho,
+                    'qota': item.get('ldaQotaRate', ''),
+                    'building': item.get('buldNm', ''),
+                    'floor': item.get('buldFloorNm', ''),
+                })
+        parcels.append({
+            'parcel': pid,
+            'area': info.get('area', 0),
+            'use_zone': info.get('use_zone', ''),
+            'use_status': info.get('use_status', ''),
+            'is_apt': is_apt,
+            'units': units,
+        })
+    parcels.sort(key=lambda x: tuple(int(p) if p.isdigit() else 0 for p in x['parcel'].split('-')))
+    return jsonify(parcels)
+
+
+@app.route('/api/bangbae/calculate')
+def bangbae_calculate():
+    """분담금 계산 — 종전자산 평가 + 비례율 + 조합원분양가"""
+    _load_bangbae_data()
+    parcel = request.args.get('parcel', '').strip()
+    ho = request.args.get('ho', '').strip()
+    target_size = float(request.args.get('size', 84))
+    land_price_per_pyeong = float(request.args.get('land_price', 6500))
+    bldg_price_per_pyeong = float(request.args.get('bldg_price', 1500))
+    sale_price_per_pyeong = float(request.args.get('sale_price', 7000))
+    member_discount = float(request.args.get('member_discount', 25))
+    ratio = float(request.args.get('ratio', 1.05))
+    scenario = request.args.get('scenario', 'standard')
+
+    if not parcel or parcel not in _BANGBAE_LAND:
+        return jsonify({'error': 'invalid parcel'}), 400
+
+    if scenario != 'custom':
+        presets = {
+            'conservative': {'sale_price_per_pyeong': 6500, 'ratio': 1.00, 'member_discount': 20},
+            'standard':     {'sale_price_per_pyeong': 7000, 'ratio': 1.05, 'member_discount': 25},
+            'aggressive':   {'sale_price_per_pyeong': 7500, 'ratio': 1.10, 'member_discount': 30},
+        }
+        p = presets.get(scenario, presets['standard'])
+        sale_price_per_pyeong = p['sale_price_per_pyeong']
+        ratio = p['ratio']
+        member_discount = p['member_discount']
+
+    info = _BANGBAE_LAND[parcel]
+    total_area = info.get('area', 0)
+
+    is_apt = parcel in _BANGBAE_BULD
+    if is_apt and ho:
+        items = _BANGBAE_BULD[parcel]
+        match = None
+        for it in items:
+            it_ho = it.get('buldHoNm', '').lstrip('0') or it.get('buldHoNm', '')
+            if it_ho == ho or it.get('buldHoNm') == ho:
+                match = it; break
+        if not match:
+            return jsonify({'error': f'호수 {ho} 미매칭'}), 400
+        qota = match.get('ldaQotaRate', '')
+        land_share_m2 = 0
+        if '/' in qota:
+            try:
+                num, den = qota.split('/')
+                if float(den) > 0 and total_area > 0:
+                    land_share_m2 = (float(num) / float(den)) * total_area
+                else:
+                    land_share_m2 = float(num)
+            except: pass
+        expos_area = (_BANGBAE_EXPOS.get(parcel, {}).get(ho)
+                     or _BANGBAE_EXPOS.get(parcel, {}).get(ho.zfill(3))
+                     or _BANGBAE_EXPOS.get(parcel, {}).get(ho.zfill(4))
+                     or 0)
+        building_name = match.get('buldNm', '')
+        floor = match.get('buldFloorNm', '')
+
+        land_share_pyeong = land_share_m2 / 3.3058
+        expos_pyeong = expos_area / 3.3058
+        land_value = land_share_pyeong * land_price_per_pyeong
+        bldg_value = expos_pyeong * bldg_price_per_pyeong
+        prior_asset = land_value + bldg_value
+
+        prior_detail = {
+            'type': '집합건물',
+            'building_name': building_name,
+            'floor': floor,
+            'parcel_total_m2': round(total_area, 1),
+            'land_share_m2': round(land_share_m2, 2),
+            'land_share_pyeong': round(land_share_pyeong, 2),
+            'qota': qota,
+            'expos_area_m2': round(expos_area, 2),
+            'expos_pyeong': round(expos_pyeong, 2),
+            'land_value_eok': round(land_value / 10000, 2),
+            'bldg_value_eok': round(bldg_value / 10000, 2),
+        }
+    else:
+        land_share_m2 = total_area
+        land_share_pyeong = total_area / 3.3058
+        bldg_value = 0
+        land_value = land_share_pyeong * land_price_per_pyeong
+        prior_asset = land_value + bldg_value
+
+        prior_detail = {
+            'type': '단독/다가구/비주거',
+            'parcel_total_m2': round(total_area, 1),
+            'land_share_m2': round(total_area, 2),
+            'land_share_pyeong': round(land_share_pyeong, 2),
+            'land_value_eok': round(land_value / 10000, 2),
+            'bldg_value_eok': 0,
+        }
+
+    converted_asset = prior_asset * ratio
+    target_pyeong = target_size / 3.3058
+    base_sale_price = target_pyeong * sale_price_per_pyeong
+    member_price = base_sale_price * (1 - member_discount / 100)
+    contribution = member_price - converted_asset
+
+    return jsonify({
+        'input': {
+            'parcel': parcel,
+            'ho': ho if is_apt else None,
+            'target_size_m2': target_size,
+            'target_pyeong': round(target_pyeong, 2),
+            'land_price_per_pyeong': land_price_per_pyeong,
+            'bldg_price_per_pyeong': bldg_price_per_pyeong,
+            'sale_price_per_pyeong': sale_price_per_pyeong,
+            'member_discount_pct': member_discount,
+            'ratio': ratio,
+            'scenario': scenario,
+        },
+        'prior_asset': {
+            'detail': prior_detail,
+            'total_eok': round(prior_asset / 10000, 2),
+        },
+        'business': {
+            'converted_asset_eok': round(converted_asset / 10000, 2),
+            'base_sale_price_eok': round(base_sale_price / 10000, 2),
+            'member_price_eok': round(member_price / 10000, 2),
+        },
+        'result': {
+            'contribution_eok': round(contribution / 10000, 2),
+            'is_pay': contribution > 0,
+        },
+    })
 
 
 if __name__ == '__main__':

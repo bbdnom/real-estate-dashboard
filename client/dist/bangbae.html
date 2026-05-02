@@ -101,6 +101,10 @@
         .pg-tab:hover{color:var(--t2);border-color:var(--border-m)}
         .pg-tab.active{color:var(--t1);background:var(--surface);border-color:var(--accent)}
         .page-section{display:none}.page-section.active{display:block}
+        .calc-sc{padding:10px 14px;background:var(--surface);border:1px solid var(--border-m);color:var(--t3);border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;text-align:center;min-width:130px;line-height:1.4;transition:all .15s}
+        .calc-sc:hover{border-color:var(--accent);color:var(--t1)}
+        .calc-sc.active{background:rgba(94,106,210,.12);border-color:var(--accent);color:var(--t1)}
+        input[type=range]{accent-color:var(--gold)}
         .pg-chip{padding:4px 10px;border-radius:9999px;font-size:11px;font-weight:500;cursor:pointer;background:transparent;color:var(--t3);border:1px solid var(--border);transition:all .15s;font-family:inherit}
         .pg-chip:hover{color:var(--t1);border-color:var(--accent);background:rgba(94,106,210,.1)}
         .news-card{padding:14px;background:var(--surface);border-radius:8px;margin-bottom:8px;border:1px solid var(--border)}
@@ -224,6 +228,7 @@
             <button class="pg-tab" onclick="showPage('policy',this)">정책</button>
             <button class="pg-tab" onclick="showPage('news',this)">뉴스</button>
             <button class="pg-tab" onclick="showPage('guide',this)">📘 재개발 가이드</button>
+            <button class="pg-tab" onclick="showPage('calc',this)">💰 분담금 계산기</button>
         </div>
     </div>
 
@@ -802,6 +807,99 @@
             </div>
         </div>
 
+        <!-- ===== 분담금 계산기 페이지 ===== -->
+        <div id="pageCalc" class="page-section">
+            <!-- 추정치 경고 -->
+            <div class="card" style="margin-bottom:16px;background:rgba(239,68,68,0.08);border:2px solid rgba(239,68,68,0.3)">
+                <div style="display:flex;align-items:flex-start;gap:14px">
+                    <div style="font-size:32px;line-height:1">⚠️</div>
+                    <div style="flex:1">
+                        <h3 style="font-size:16px;color:var(--red);margin:0 0 8px;font-weight:700">이 계산기는 시즌1 사례 기반 "추정치"입니다 — 실제 분담금과 다를 수 있습니다</h3>
+                        <div style="font-size:13px;color:var(--t2);line-height:1.7">
+                            ① 시즌1 도심복합사업 6곳(쌍문역·신길2·방학역·연신내역·증산4·수색14)의 평균치를 기반으로 합니다.<br>
+                            ② <strong style="color:var(--red)">실제 종전자산 평가는 사업시행계획 인가 시점에 LH가 감정평가법인을 통해 실측</strong>합니다.<br>
+                            ③ 비례율은 정비계획 수립 단계에서 산정되며, 분양가는 분양 시점 시세에 따라 결정됩니다.<br>
+                            ④ <strong style="color:var(--red)">결과는 참고용이며 의사결정 시 실제 감정평가 결과를 반드시 확인하세요.</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-bottom:16px">
+                <h2>💰 분담금 계산기</h2>
+                <div style="font-size:12px;color:var(--t4);margin-bottom:14px">본인 부동산(지번·호수)을 선택하면 환산 종전자산·조합원 분양가·예상 분담금을 자동 계산합니다.</div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:16px">
+                    <div>
+                        <label style="font-size:12px;color:var(--t3);display:block;margin-bottom:4px">지번</label>
+                        <select id="calcParcel" onchange="onParcelChange()" style="width:100%;background:var(--surface);border:1px solid var(--border-m);color:var(--t1);padding:10px;border-radius:8px;font-size:14px;font-family:inherit">
+                            <option value="">선택하세요</option>
+                        </select>
+                    </div>
+                    <div id="calcHoBox" style="display:none">
+                        <label style="font-size:12px;color:var(--t3);display:block;margin-bottom:4px">호수 (집합건물)</label>
+                        <select id="calcHo" style="width:100%;background:var(--surface);border:1px solid var(--border-m);color:var(--t1);padding:10px;border-radius:8px;font-size:14px;font-family:inherit"></select>
+                    </div>
+                    <div>
+                        <label style="font-size:12px;color:var(--t3);display:block;margin-bottom:4px">신청 평형</label>
+                        <select id="calcSize" style="width:100%;background:var(--surface);border:1px solid var(--border-m);color:var(--t1);padding:10px;border-radius:8px;font-size:14px;font-family:inherit">
+                            <option value="59">59㎡ (약 17.8평)</option>
+                            <option value="74">74㎡ (약 22.4평)</option>
+                            <option value="84" selected>84㎡ (약 25.4평)</option>
+                            <option value="114">114㎡ (약 34.5평)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="margin-bottom:16px">
+                    <label style="font-size:12px;color:var(--t3);display:block;margin-bottom:6px">시나리오</label>
+                    <div style="display:flex;gap:6px;flex-wrap:wrap">
+                        <button class="calc-sc" data-sc="conservative" onclick="setScenario('conservative')">보수<br><span style="font-size:10px;color:var(--t4)">분양가 6500/평·비례율 1.0·할인 20%</span></button>
+                        <button class="calc-sc active" data-sc="standard" onclick="setScenario('standard')">표준 ⭐<br><span style="font-size:10px;color:var(--t4)">분양가 7000/평·비례율 1.05·할인 25%</span></button>
+                        <button class="calc-sc" data-sc="aggressive" onclick="setScenario('aggressive')">적극<br><span style="font-size:10px;color:var(--t4)">분양가 7500/평·비례율 1.10·할인 30%</span></button>
+                        <button class="calc-sc" data-sc="custom" onclick="setScenario('custom')">사용자 정의</button>
+                    </div>
+                </div>
+
+                <div id="calcCustom" style="display:none;background:var(--surface);border-radius:10px;padding:14px;margin-bottom:16px">
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                        <div><label style="font-size:12px;color:var(--t3)">토지 시세 (만원/평): <span id="lpVal">6500</span></label><input type="range" id="lpRange" min="3000" max="15000" step="100" value="6500" oninput="updateCustom()" style="width:100%"></div>
+                        <div><label style="font-size:12px;color:var(--t3)">건물 시세 (만원/평): <span id="bpVal">1500</span></label><input type="range" id="bpRange" min="500" max="3000" step="100" value="1500" oninput="updateCustom()" style="width:100%"></div>
+                        <div><label style="font-size:12px;color:var(--t3)">신축 분양가 (만원/평): <span id="spVal">7000</span></label><input type="range" id="spRange" min="5000" max="12000" step="100" value="7000" oninput="updateCustom()" style="width:100%"></div>
+                        <div><label style="font-size:12px;color:var(--t3)">조합원 할인율 (%): <span id="mdVal">25</span></label><input type="range" id="mdRange" min="0" max="50" step="1" value="25" oninput="updateCustom()" style="width:100%"></div>
+                        <div><label style="font-size:12px;color:var(--t3)">비례율: <span id="rtVal">1.05</span></label><input type="range" id="rtRange" min="0.7" max="1.3" step="0.01" value="1.05" oninput="updateCustom()" style="width:100%"></div>
+                    </div>
+                </div>
+
+                <button onclick="runCalc()" style="width:100%;padding:14px;background:var(--gold);color:#000;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit">계산하기</button>
+
+                <div id="calcResult" style="margin-top:20px;display:none">
+                    <div class="grid grid-3" style="margin-bottom:16px">
+                        <div class="card kpi" style="background:var(--surface)">
+                            <div class="kpi-label">종전자산 평가</div>
+                            <div class="kpi-value" id="rPrior" style="color:var(--accent2);font-size:22px">-</div>
+                            <div class="kpi-sub" id="rPriorDetail"></div>
+                        </div>
+                        <div class="card kpi" style="background:var(--surface)">
+                            <div class="kpi-label">조합원 분양가</div>
+                            <div class="kpi-value" id="rMember" style="color:var(--gold);font-size:22px">-</div>
+                            <div class="kpi-sub" id="rMemberDetail"></div>
+                        </div>
+                        <div class="card kpi" id="rContribCard" style="background:var(--surface)">
+                            <div class="kpi-label" id="rContribLabel">예상 분담금</div>
+                            <div class="kpi-value" id="rContrib" style="font-size:24px">-</div>
+                            <div class="kpi-sub" id="rContribDetail"></div>
+                        </div>
+                    </div>
+
+                    <div class="card" style="background:var(--surface)">
+                        <h3 style="font-size:14px;color:var(--t1);margin-bottom:10px">📋 상세 내역</h3>
+                        <div id="rDetail" style="font-size:13px;color:var(--t2);line-height:1.9"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div style="text-align:center;color:var(--t4);font-size:11px;padding:20px 0">
             방배동 도심공공주택복합사업 주민 대시보드 | by 혜만
         </div>
@@ -811,7 +909,7 @@
         let kakaoMap=null;
 
         // 페이지 전환
-        const TAB_PATHS={main:'/',trade:'/trade',policy:'/policy',news:'/news',guide:'/guide'};
+        const TAB_PATHS={main:'/',trade:'/trade',policy:'/policy',news:'/news',guide:'/guide',calc:'/calc'};
         function activateTab(page,updateUrl){
             document.querySelectorAll('.page-section').forEach(s=>s.classList.remove('active'));
             document.querySelectorAll('.pg-tab').forEach(t=>t.classList.remove('active'));
@@ -829,10 +927,122 @@
             if(page==='main'&&kakaoMap)setTimeout(()=>kakaoMap.relayout(),100);
             if(page==='policy')loadPolicyTab();
             if(page==='news'&&!newsLoaded)searchNews();
+            if(page==='calc'&&!calcLoaded)loadCalcParcels();
         }
         function showPage(page,btn){
             activateTab(page,true);
             window.scrollTo({top:0,behavior:'smooth'});
+        }
+
+        // ===== 분담금 계산기 =====
+        let calcLoaded=false, calcParcelsData=[], calcScenario='standard';
+        async function loadCalcParcels(){
+            try{
+                const r=await fetch('/api/bangbae/parcels');
+                calcParcelsData=await r.json();
+                const sel=document.getElementById('calcParcel');
+                sel.innerHTML='<option value="">선택하세요</option>'+
+                    calcParcelsData.map(p=>`<option value="${p.parcel}">${p.parcel} — ${p.area}㎡ ${p.is_apt?'(집합건물)':'('+p.use_status+')'}</option>`).join('');
+                calcLoaded=true;
+            }catch(e){console.error(e);}
+        }
+        function onParcelChange(){
+            const pid=document.getElementById('calcParcel').value;
+            const hoBox=document.getElementById('calcHoBox');
+            const hoSel=document.getElementById('calcHo');
+            const p=calcParcelsData.find(x=>x.parcel===pid);
+            if(!p||!p.is_apt){hoBox.style.display='none';return;}
+            hoBox.style.display='block';
+            hoSel.innerHTML=p.units.map(u=>`<option value="${u.ho}">${u.ho}호 (${u.building||'-'} ${u.floor||''}층, 지분 ${u.qota||'-'})</option>`).join('');
+        }
+        function setScenario(sc){
+            calcScenario=sc;
+            document.querySelectorAll('.calc-sc').forEach(b=>b.classList.toggle('active',b.dataset.sc===sc));
+            document.getElementById('calcCustom').style.display=sc==='custom'?'block':'none';
+        }
+        function updateCustom(){
+            ['lp','bp','sp','md','rt'].forEach(k=>{
+                document.getElementById(k+'Val').textContent=document.getElementById(k+'Range').value;
+            });
+        }
+        async function runCalc(){
+            const pid=document.getElementById('calcParcel').value;
+            if(!pid){alert('지번을 선택하세요');return;}
+            const ho=document.getElementById('calcHo').value;
+            const size=document.getElementById('calcSize').value;
+            let url=`/api/bangbae/calculate?parcel=${pid}&size=${size}&scenario=${calcScenario}`;
+            if(ho)url+=`&ho=${ho}`;
+            if(calcScenario==='custom'){
+                const lp=document.getElementById('lpRange').value;
+                const bp=document.getElementById('bpRange').value;
+                const sp=document.getElementById('spRange').value;
+                const md=document.getElementById('mdRange').value;
+                const rt=document.getElementById('rtRange').value;
+                url+=`&land_price=${lp}&bldg_price=${bp}&sale_price=${sp}&member_discount=${md}&ratio=${rt}`;
+            }
+            try{
+                const r=await fetch(url);
+                const d=await r.json();
+                if(d.error){alert(d.error);return;}
+                renderCalc(d);
+            }catch(e){alert('계산 실패: '+e.message);}
+        }
+        function renderCalc(d){
+            document.getElementById('calcResult').style.display='block';
+            const prior=d.prior_asset.detail;
+            const total=d.prior_asset.total_eok;
+            const member=d.business.member_price_eok;
+            const contrib=d.result.contribution_eok;
+            const isPay=d.result.is_pay;
+
+            document.getElementById('rPrior').textContent=total.toFixed(2)+'억';
+            document.getElementById('rPriorDetail').textContent=
+                prior.type==='집합건물'
+                ?`${prior.building_name||'집합건물'} ${prior.floor||''}층 / 대지지분 ${prior.land_share_pyeong}평 + 전유 ${prior.expos_pyeong}평`
+                :`대지 ${prior.land_share_pyeong}평 (${prior.land_share_m2}㎡)`;
+            document.getElementById('rMember').textContent=member.toFixed(2)+'억';
+            document.getElementById('rMemberDetail').textContent=`${d.input.target_size_m2}㎡ × 평당 ${d.input.sale_price_per_pyeong}만원 × 조합원 할인 ${d.input.member_discount_pct}%`;
+
+            const cEl=document.getElementById('rContrib');
+            const cCard=document.getElementById('rContribCard');
+            const cLabel=document.getElementById('rContribLabel');
+            if(isPay){
+                cEl.textContent='+'+contrib.toFixed(2)+'억';
+                cEl.style.color='var(--gold)';
+                cCard.style.background='rgba(245,158,11,0.08)';
+                cCard.style.border='1px solid rgba(245,158,11,0.2)';
+                cLabel.textContent='예상 분담금 (납부)';
+                document.getElementById('rContribDetail').textContent='추가 납부 필요';
+            }else{
+                cEl.textContent=contrib.toFixed(2)+'억';
+                cEl.style.color='var(--emerald)';
+                cCard.style.background='rgba(16,185,129,0.08)';
+                cCard.style.border='1px solid rgba(16,185,129,0.2)';
+                cLabel.textContent='예상 환급금';
+                document.getElementById('rContribDetail').textContent='종전자산이 분양가보다 큼 — 환급 또는 더 큰 평형 신청 가능';
+            }
+
+            let detail='';
+            if(prior.type==='집합건물'){
+                detail+=`<div><strong>① 종전자산 평가 (${prior.building_name||'집합건물'} ${prior.floor||''}층)</strong></div>`;
+                detail+=`<div>• 필지 전체 ${prior.parcel_total_m2}㎡, 등기 지분율 ${prior.qota}</div>`;
+                detail+=`<div>• 환산 대지지분: ${prior.land_share_m2}㎡ (${prior.land_share_pyeong}평) → ${prior.land_value_eok}억</div>`;
+                detail+=`<div>• 전유면적: ${prior.expos_area_m2}㎡ (${prior.expos_pyeong}평) → ${prior.bldg_value_eok}억</div>`;
+                detail+=`<div>• <strong>합계: ${total}억</strong></div>`;
+            }else{
+                detail+=`<div><strong>① 종전자산 평가 (단독·다가구·비주거)</strong></div>`;
+                detail+=`<div>• 대지면적: ${prior.land_share_m2}㎡ (${prior.land_share_pyeong}평) → ${prior.land_value_eok}억</div>`;
+                detail+=`<div>• 건물 가치: ${prior.bldg_value_eok}억 (노후로 보수 평가 0)</div>`;
+                detail+=`<div>• <strong>합계: ${total}억</strong></div>`;
+            }
+            detail+=`<br><div><strong>② 비례율 적용 (사업 비례율 ${d.input.ratio})</strong></div>`;
+            detail+=`<div>• 환산 종전자산: ${total}억 × ${d.input.ratio} = <strong>${d.business.converted_asset_eok}억</strong></div>`;
+            detail+=`<br><div><strong>③ 조합원 분양가 (${d.input.target_size_m2}㎡)</strong></div>`;
+            detail+=`<div>• 일반분양가: ${d.input.target_pyeong}평 × ${d.input.sale_price_per_pyeong}만원 = ${d.business.base_sale_price_eok}억</div>`;
+            detail+=`<div>• 조합원 할인 ${d.input.member_discount_pct}% 적용: <strong>${member}억</strong></div>`;
+            detail+=`<br><div><strong>④ 분담금</strong></div>`;
+            detail+=`<div>• 조합원 분양가 ${member}억 - 환산 종전자산 ${d.business.converted_asset_eok}억 = <strong>${isPay?'+':''}${contrib}억</strong></div>`;
+            document.getElementById('rDetail').innerHTML=detail;
         }
         // 최초 로드 시 pathname 기반 탭 선택
         (function initTabFromPath(){
